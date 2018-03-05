@@ -24,9 +24,10 @@ type
   end;
 
 var
-freqsine : integer = 440;
+freqsine : cfloat = 440.0;
 audioobj : paudio_object = nil;
-lensine, posLsine, posRsine : cfloat;
+lensine : cfloat;
+posLsine, posRsine : integer;
  ordir, pc_FileName: string;
 x : integer = 0;
 pf : array of cfloat;
@@ -43,12 +44,10 @@ begin
   pf[x2+1] :=  CFloat((Sin( ( CFloat((x2 div 2) + posRsine)/CFloat(lensine) ) * Pi * 2 )));
   
   
-     if posLsine +1 > lensine -1 then
-  posLsine := 0 else
+     if posLsine +1 > lensine -1 then posLsine := 0 else
   posLsine := posLsine +1 ;
 
-  if posRsine +1 > lensine -1 then
-  posRsine := 0 else
+  if posRsine +1 > lensine -1 then posRsine := 0 else
   posRsine := posRsine +1 ;
 
 
@@ -81,11 +80,11 @@ end;
 
   while x < 200 do
 begin
-ReadSynth; 
-audio_object_write(audioobj, @pf, 1024 ); 
+ReadSynth;
+audio_object_write(audioobj, @pf, 1024 div 2 ); 
 audio_object_flush(audioobj);
+audio_object_drain(audioobj); 
 inc(x);
-sleep(1);
 end;
 
  audio_object_close(audioobj);
@@ -113,7 +112,7 @@ var
   Application: TConsole;
 begin
   Application := TConsole.Create(nil);
-  Application.Title := 'Console Player';
+  Application.Title := 'Sine-Wave and Pcaudiolib';
   Application.Run;
   Application.Free;
 end.

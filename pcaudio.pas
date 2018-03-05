@@ -1,4 +1,5 @@
  { This is the Pascal Dynamic loading of pcaudiolib C Wrapper.
+        https://github.com/rhdunn/pcaudiolib
  Load library with pc_load() and release with pc_unload().
  Fred van Stappen
  fiens@hotmail.com

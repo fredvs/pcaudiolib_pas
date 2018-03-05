@@ -525,7 +525,7 @@ makeoptionson=8
  63
  3
  34
- 48
+ 52
  63
 compilerusedon=29
  4095
@@ -830,7 +830,7 @@ line=7
  1536
  124
  145
- 80
+ 79
 address=7
  4859424
  4848519
@@ -943,38 +943,18 @@ findhistory=20
  filter
  nottbuf
 findoptions=1
-editpos=6
- 0,81
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+editpos=2
+ 5,81
  0,-1073741823
 bookmarks0=0
 bookmarks1=0
-bookmarks2=0
-bookmarks3=0
-bookmarks4=0
-bookmarks5=0
-sourcefiles=6
+sourcefiles=2
  ${PROJECTDIR}/pcaudiosynth.pas
- /home/fred/pcaudiolib-master/src/audio.c
  ${PROJECTDIR}/pcaudio.pas
- ${PROJECTDIR}/pcaudiosynth.pas
- /home/fred/uos/examples/uos_portaudio.pas
- /home/fred/espeak-ng-master/src/libespeak-ng/speech.c
-relpaths=6
+relpaths=2
  pcaudiosynth.pas
- pcaudiolib-master/src/audio.c
  pcaudio.pas
- pcaudiosynth.pas
- uos/examples/uos_portaudio.pas
- espeak-ng-master/src/libespeak-ng/speech.c
-ismoduletexts=6
- 0
- 0
- 0
- 0
+ismoduletexts=2
  0
  0
 modules=1
@@ -986,15 +966,8 @@ visiblemodules=1
 nomenumodules=1
  0
 [sourcefo.files_tab]
-order=6
- 4
- 0
- 1
- 5
- 3
- 2
 firsttab=0
-index=1
+index=0
 [layout]
 windowlayout=612
  [mainfo.basedock]
@@ -1051,7 +1024,7 @@ windowlayout=612
  rcy=0
  wsize=0
  active=0
- visible=0
+ visible=1
  [threadsfo]
  splitdir=0
  useroptions=805322857
@@ -1593,7 +1566,7 @@ windowlayout=612
  [_mse_guitemplatesmo_mse_]
  splitdir=0
  useroptions=805322875
- stackedunder=mainfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
