@@ -25,12 +25,13 @@ type
 
 var
 freqsine : cfloat = 440.0;
+samplerate : cfloat = 44100.0;
 audioobj : paudio_object = nil;
 lensine : cfloat;
 posLsine, posRsine : integer;
- ordir, pc_FileName: string;
+ordir, pc_FileName: string;
 x : integer = 0;
-pf : array of cfloat;
+pf : array of cfloat; 
 
 procedure ReadSynth;  
 var
@@ -40,8 +41,8 @@ begin
  while x2 < length(pf) -1 do
 
   begin
-  pf[x2] :=  CFloat((Sin( ( CFloat((x2 div 2)+ posLsine)/CFloat( lensine) ) * Pi * 2 )));
-  pf[x2+1] :=  CFloat((Sin( ( CFloat((x2 div 2) + posRsine)/CFloat(lensine) ) * Pi * 2 )));
+  pf[x2] :=  Sin( ( ((x2 div 2)+ posLsine)/ lensine ) * Pi * 2 ) ;
+  pf[x2+1] :=  Sin( ( ((x2 div 2) + posRsine)/lensine ) * Pi * 2 );
   
   
      if posLsine +1 > lensine -1 then posLsine := 0 else
@@ -64,7 +65,7 @@ end;
     writeln('libpcaudio.so.0 loaded') else
     writeln('libpcaudio.so.0 NOT loaded');
     
-   lensine := 44100 / 440 *2 ; 
+   lensine := samplerate / freqsine *2 ; 
    posLsine := 0 ;
    posRsine := 0 ;
 
@@ -78,10 +79,10 @@ end;
 
    audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,2);
 
-  while x < 200 do
+  while x < 150 do
 begin
 ReadSynth;
-audio_object_write(audioobj, @pf, 1024 div 2 ); 
+audio_object_write(audioobj,@pf[0], 512); 
 audio_object_flush(audioobj);
 audio_object_drain(audioobj); 
 inc(x);

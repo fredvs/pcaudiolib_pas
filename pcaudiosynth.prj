@@ -830,7 +830,7 @@ line=7
  1536
  124
  145
- 79
+ 80
 address=7
  4859424
  4848519
@@ -943,18 +943,23 @@ findhistory=20
  filter
  nottbuf
 findoptions=1
-editpos=2
- 5,81
+editpos=3
+ 0,39
+ 0,-1073741823
  0,-1073741823
 bookmarks0=0
 bookmarks1=0
-sourcefiles=2
+bookmarks2=0
+sourcefiles=3
  ${PROJECTDIR}/pcaudiosynth.pas
  ${PROJECTDIR}/pcaudio.pas
-relpaths=2
+ /home/fred/uos/examples/uos_mpg123.pas
+relpaths=3
  pcaudiosynth.pas
  pcaudio.pas
-ismoduletexts=2
+ uos/examples/uos_mpg123.pas
+ismoduletexts=3
+ 0
  0
  0
 modules=1
@@ -995,8 +1000,8 @@ windowlayout=612
  ny=0
  ncx=0
  ncy=0
- x=16
- y=63
+ x=3
+ y=24
  cx=1347
  cy=621
  rcx=0
@@ -1016,8 +1021,8 @@ windowlayout=612
  ny=0
  ncx=0
  ncy=0
- x=493
- y=171
+ x=464
+ y=220
  cx=775
  cy=314
  rcx=0
@@ -1189,15 +1194,15 @@ windowlayout=612
  [breakpointsfo]
  splitdir=0
  useroptions=268451947
- stackedunder=memoryfo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
  ny=0
  ncx=0
  ncy=0
- x=216
- y=260
+ x=308
+ y=396
  cx=477
  cy=128
  rcx=0
@@ -1457,8 +1462,8 @@ windowlayout=612
  [debuggerfo.file_history]
  value=/home/fred/pcaudiolib_pas/pcaudiosynth.pas
  history=50
-  /home/fred/uos/examples/uos_mpg123.pas
   /home/fred/uos/examples/uos_portaudio.pas
+  /home/fred/uos/examples/uos_mpg123.pas
   /home/fred/uos/examples/main_sp.lfm
   /home/fred/uos/examples/fpc_ct.cfg
   /home/fred/uoslibCT/src/fpcct_android.cfg

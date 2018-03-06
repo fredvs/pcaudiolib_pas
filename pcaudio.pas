@@ -30,6 +30,14 @@ type
   size_t = cuint32;
 {$endif}
 
+  TDArFloat = array of cfloat;
+  TDArShort = array of cInt16;
+  TDArLong = array of cInt32;
+
+  PDArFloat = ^TDArFloat;
+  PDArShort = ^TDArShort;
+  PDArLong = ^TDArLong;
+
 audio_object_format =(
       AUDIO_OBJECT_FORMAT_S8 = 0,
       AUDIO_OBJECT_FORMAT_U8 = 1,
