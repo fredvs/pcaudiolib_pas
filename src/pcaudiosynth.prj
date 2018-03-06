@@ -19,7 +19,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/pcaudiolib_pas/src
 projectfilename=/home/fred/pcaudiolib_pas/src/pcaudiosynth.prj
-findinfiledialog=52
+findinfiledialog=54
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -35,27 +35,29 @@ findinfiledialog=52
  [findinfileadialogfo.indirectories]
  value=1
  [findinfileadialogfo.mask]
- value="*.pas" "*.pp" "*.inc" "*.c"
+ value="*.pas" "*.pp" "*.inc" "*.*"
  history=3
-  "*.pas" "*.pp" "*.inc" "*.c"
   "*.pas" "*.pp" "*.inc" "*.*"
+  "*.pas" "*.pp" "*.inc" "*.c"
   "*.pas" "*.pp" "*.inc"
  [findinfileadialogfo.dir]
  filenames=1
-  /home/fred/espeak-ng-master/
+  /home/fred/pcaudiolib-master/
  filecolwidth=174
  x=0
  y=0
  cx=0
  cy=0
- filehistory=1
+ filehistory=2
+  /home/fred/pcaudiolib-master/
   /home/fred/uoslibCT/examples/
  filefilterindex=0
- filefilter="*.pas" "*.pp" "*.inc"
+ filefilter="*.pas" "*.pp" "*.inc" "*.c"
  [findinfileadialogfo.findtext]
  value=audio_object_open
- history=11
+ history=12
   audio_object_open
+  audio_object_format
   audio_object_write
   uos_AddIntoDevOut
   defined(cpu64) and if defined(linux)
@@ -943,23 +945,18 @@ findhistory=20
  filter
  nottbuf
 findoptions=1
-editpos=3
- 0,22
- 0,-1073741823
- 0,-1073741823
+editpos=2
+ 0,116
+ 0,31
 bookmarks0=0
 bookmarks1=0
-bookmarks2=0
-sourcefiles=3
+sourcefiles=2
  ${PROJECTDIR}/pcaudiosynth.pas
  ${PROJECTDIR}/pcaudio.pas
- /home/fred/uos/examples/uos_mpg123.pas
-relpaths=3
+relpaths=2
  pcaudiosynth.pas
  pcaudio.pas
- uos/examples/uos_mpg123.pas
-ismoduletexts=3
- 0
+ismoduletexts=2
  0
  0
 modules=1
@@ -1010,7 +1007,7 @@ windowlayout=612
   basedock,0,0,1337,604
  focusedchild=0
  wsize=0
- active=1
+ active=0
  visible=1
  [targetconsolefo]
  splitdir=0
@@ -1028,8 +1025,8 @@ windowlayout=612
  rcx=0
  rcy=0
  wsize=0
- active=0
- visible=0
+ active=1
+ visible=1
  [threadsfo]
  splitdir=0
  useroptions=805322857
@@ -1215,7 +1212,7 @@ windowlayout=612
  [objectinspectorfo]
  splitdir=0
  useroptions=805322859
- stackedunder=componentpalettefo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1403,7 +1400,7 @@ windowlayout=612
  [componentpalettefo]
  splitdir=0
  useroptions=805331051
- stackedunder=mainfo
+ stackedunder=
  parent=
  mdistate=3
  nx=0
@@ -1462,8 +1459,9 @@ windowlayout=612
  [debuggerfo.file_history]
  value=/home/fred/pcaudiolib_pas/src/pcaudiosynth.pas
  history=50
-  /home/fred/uos/examples/uos_portaudio.pas
+  /home/fred/pcaudiolib-master/src/audio_priv.h
   /home/fred/uos/examples/uos_mpg123.pas
+  /home/fred/uos/examples/uos_portaudio.pas
   /home/fred/uos/examples/main_sp.lfm
   /home/fred/uos/examples/fpc_ct.cfg
   /home/fred/uoslibCT/src/fpcct_android.cfg
@@ -1511,7 +1509,6 @@ windowlayout=612
   /home/fred/strumpract/src/commander.pas
   /home/fred/ideu/src/dialogfiles.pas
   /home/fred/ideu/src/confmsegui.pas
-  /home/fred/ideu/src/conffpgui.pas
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1571,7 +1568,7 @@ windowlayout=612
  [_mse_guitemplatesmo_mse_]
  splitdir=0
  useroptions=805322875
- stackedunder=objectinspectorfo
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0

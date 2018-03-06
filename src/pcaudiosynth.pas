@@ -28,34 +28,47 @@ freqsine : cfloat = 440.0;
 samplerate : cfloat = 44100.0;
 audioobj : paudio_object = nil;
 lensine : cfloat;
-posLsine, posRsine : integer;
+posine, ratio : integer;
 ordir, pc_FileName: string;
 x : integer = 0;
+typformat : integer = 0;
+ps : array of cint16;
+pl : array of cint32;
 pf : array of cfloat; 
 
 procedure ReadSynth;  
 var
 x2 : integer = 0;
 begin
-
- while x2 < length(pf) -1 do
-
+  
+   case typformat of
+  0: while x2 < length(ps) -1 do
   begin
-  pf[x2] :=  Sin( ( ((x2 div 2)+ posLsine)/ lensine ) * Pi * 2 ) ;
-  pf[x2+1] :=  Sin( ( ((x2 div 2) + posRsine)/lensine ) * Pi * 2 );
-  
-  
-     if posLsine +1 > lensine -1 then posLsine := 0 else
-  posLsine := posLsine +1 ;
-
-  if posRsine +1 > lensine -1 then posRsine := 0 else
-  posRsine := posRsine +1 ;
-
-
-  x2 := x2 + 2 ;
+  ps[x2] := round( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )* 32767) ;
+  ps[x2+1] :=  ps[x2];
+     if posine +1 > lensine -1 then posine := 0 else
+  posine := posine +1 ;
+   x2 := x2 + 2 ;
   end;
-
-end;
+  1: while x2 < length(pl) -1 do
+  begin
+  pl[x2] := round( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )* 2147483647) ;
+  pl[x2+1] :=  pl[x2];
+     if posine +1 > lensine -1 then posine := 0 else
+  posine := posine +1 ;
+   x2 := x2 + 2 ;
+  end;
+  2: while x2 < length(pf) -1 do
+  begin
+  pf[x2] := ( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )) ;
+  pf[x2+1] :=  pf[x2];
+     if posine +1 > lensine -1 then posine := 0 else
+  posine := posine +1 ;
+   x2 := x2 + 2 ;
+  end;
+  end;
+   
+   end;
 
   procedure TConsole.ConsolePlay;
   begin
@@ -66,28 +79,42 @@ end;
     writeln('libpcaudio.so.0 NOT loaded');
     
    lensine := samplerate / freqsine *2 ; 
-   posLsine := 0 ;
-   posRsine := 0 ;
-
-   setlength(pf,1024);
-      
-   audioobj := create_audio_device_object(nil, nil, nil);
+   posine := 0 ;
+   
+   setlength(ps,512);
+   setlength(pl,512);
+   setlength(pf,512);
+   
+    typformat := 2; // 0 = cint16, 1 = cint32, 2 = cfloat32
+    
+    if  typformat = 0 then ratio := 2 else ratio := 1;
+   
+  audioobj := create_audio_device_object(nil, nil, nil);
    
      if audioobj = nil then
     writeln('audioobj = nil ;(') else
     writeln('audioobj assigned');
 
-   audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,2);
+  case typformat of
+  0: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S16LE, 44100,2);
+  1: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S32LE, 44100,2);
+  2: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,2);
+  end;
 
-  while x < 150 do
+ audio_object_drain(audioobj); 
+  
+  while x < 4500 * ratio  do
 begin
 ReadSynth;
-audio_object_write(audioobj,@pf[0], 512); 
-audio_object_flush(audioobj);
-audio_object_drain(audioobj); 
+ case typformat of
+  0: audio_object_write(audioobj,@ps[0], 512 div 2); 
+  1: audio_object_write(audioobj,@pl[0], 512 ); 
+  2: audio_object_write(audioobj,@pf[0], 512 ); 
+  end;
 inc(x);
 end;
-
+ audio_object_flush(audioobj);
+ audio_object_drain(audioobj); 
  audio_object_close(audioobj);
  audio_object_destroy(audioobj);
 
