@@ -17,8 +17,8 @@ order14=0
 order15=0
 order16=0
 [projectoptions]
-projectdir=/home/fred/pcaudiolib_pas
-projectfilename=/home/fred/pcaudiolib_pas/pcaudiosynth.prj
+projectdir=/home/fred/pcaudiolib_pas/src
+projectfilename=/home/fred/pcaudiolib_pas/src/pcaudiosynth.prj
 findinfiledialog=52
  [findinfileadialogfo.subdirs]
  value=1
@@ -944,7 +944,7 @@ findhistory=20
  nottbuf
 findoptions=1
 editpos=3
- 0,39
+ 0,22
  0,-1073741823
  0,-1073741823
 bookmarks0=0
@@ -1029,7 +1029,7 @@ windowlayout=612
  rcy=0
  wsize=0
  active=0
- visible=1
+ visible=0
  [threadsfo]
  splitdir=0
  useroptions=805322857
@@ -1194,7 +1194,7 @@ windowlayout=612
  [breakpointsfo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=memoryfo
  parent=
  mdistate=0
  nx=0
@@ -1215,7 +1215,7 @@ windowlayout=612
  [objectinspectorfo]
  splitdir=0
  useroptions=805322859
- stackedunder=
+ stackedunder=componentpalettefo
  parent=
  mdistate=0
  nx=0
@@ -1403,7 +1403,7 @@ windowlayout=612
  [componentpalettefo]
  splitdir=0
  useroptions=805331051
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=3
  nx=0
@@ -1460,7 +1460,7 @@ windowlayout=612
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/pcaudiolib_pas/pcaudiosynth.pas
+ value=/home/fred/pcaudiolib_pas/src/pcaudiosynth.pas
  history=50
   /home/fred/uos/examples/uos_portaudio.pas
   /home/fred/uos/examples/uos_mpg123.pas
@@ -1571,7 +1571,7 @@ windowlayout=612
  [_mse_guitemplatesmo_mse_]
  splitdir=0
  useroptions=805322875
- stackedunder=targetconsolefo
+ stackedunder=objectinspectorfo
  parent=
  mdistate=0
  nx=0
