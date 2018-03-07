@@ -24,12 +24,12 @@ type
   end;
 
 var
-freqsine : cfloat = 440.0;
+freqsine : cfloat = 150.0;
 samplerate : cfloat = 44100.0;
 audioobj : paudio_object = nil;
-lensine : cfloat;
-posine, ratio : integer;
-ordir, pc_FileName: string;
+lensine, ratio : cfloat;
+posine : integer;
+ordir, pc_FileName, libname: string;
 x : integer = 0;
 typformat : integer = 0;
 ps : array of cint16;
@@ -72,28 +72,48 @@ begin
 
   procedure TConsole.ConsolePlay;
   begin
+    writeln('Sine Wave test.');
+    writeln();
+    
+    {$IFDEF UNIX}
+libname := 'libpcaudio.so.0';
+   {$else}
+libname := 'pcaudio.dll';
+ {$ENDIF}
+  
     ordir := IncludeTrailingBackslash(ExtractFilePath(ParamStr(0)));
-     pc_FileName := ordir + 'libpcaudio.so.0';
+     pc_FileName := ordir + libname;
     if pc_load(pc_FileName ) then
-    writeln('libpcaudio.so.0 loaded') else
-    writeln('libpcaudio.so.0 NOT loaded');
-    
-   lensine := samplerate / freqsine *2 ; 
-   posine := 0 ;
+    writeln( pc_FileName + ' loaded.') else
+    writeln(pc_FileName + ' NOT loaded.');
+       
+   setlength(ps,512*2);
+   setlength(pl,512*2);
+   setlength(pf,512*2);
    
-   setlength(ps,512);
-   setlength(pl,512);
-   setlength(pf,512);
+   typformat := 0;
    
-    typformat := 2; // 0 = cint16, 1 = cint32, 2 = cfloat32
-    
-    if  typformat = 0 then ratio := 2 else ratio := 1;
+   while typformat < 3 do begin
+  
+   writeln();
+    case typformat of
+  0: writeln('Test sine-wave format integer 16 bit...');
+  1: writeln('Test sine-wave format integer 32 bit...');
+  2: writeln('Test sine-wave format float 32 bit...');
+  end;
+  
+    freqsine := 150.0;
+    lensine := samplerate / freqsine *2 ; 
+    posine := 0 ;
+    x := 0;
+   
+    if  typformat = 0 then ratio := 1.75 else ratio := 1; // Huh why ???
    
   audioobj := create_audio_device_object(nil, nil, nil);
    
      if audioobj = nil then
     writeln('audioobj = nil ;(') else
-    writeln('audioobj assigned');
+    writeln('audioobj assigned.');
 
   case typformat of
   0: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S16LE, 44100,2);
@@ -101,30 +121,38 @@ begin
   2: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,2);
   end;
 
- audio_object_drain(audioobj); 
+//audio_object_drain(audioobj); 
   
-  while x < 4500 * ratio  do
+  while x < round(2700 * ratio)  do
 begin
+if freqsine < 8000 then
+freqsine := freqsine +1 ;
+lensine := samplerate / freqsine *2 ; 
 ReadSynth;
  case typformat of
-  0: audio_object_write(audioobj,@ps[0], 512 div 2); 
-  1: audio_object_write(audioobj,@pl[0], 512 ); 
-  2: audio_object_write(audioobj,@pf[0], 512 ); 
+  0: audio_object_write(audioobj,@ps[0], 512 ); 
+  1: audio_object_write(audioobj,@pl[0], 512*2 ); 
+  2: audio_object_write(audioobj,@pf[0], 512*2 ); 
   end;
 inc(x);
 end;
- audio_object_flush(audioobj);
- audio_object_drain(audioobj); 
+
+// audio_object_flush(audioobj);
+// audio_object_drain(audioobj); 
  audio_object_close(audioobj);
  audio_object_destroy(audioobj);
+ 
+ inc(typformat);
+ 
+ sleep(500);
+ end;
 
  end;
 
   procedure TConsole.doRun;
   begin
     ConsolePlay;
- //   writeln('Press a key to exit...');
- //   readln;
+   writeln();
    writeln('Ciao...');
     pc_unload(); // Do not forget this !
     Terminate;   

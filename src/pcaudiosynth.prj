@@ -204,7 +204,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=2
+ index=0
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=724
  width0=47
@@ -225,7 +225,7 @@ options=114
  index=1
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=2
+ index=1
  [projectoptionsfo]
  stackedunder=
  x=302
@@ -522,19 +522,19 @@ modulefiles=1
 befcommandon=0
 makeoptionson=8
  0
- 63
- 63
- 63
+ 255
+ 255
+ 255
  3
- 34
- 52
- 63
+ 226
+ 244
+ 255
 compilerusedon=29
- 4095
- 0
- 0
- 0
- 0
+ 3891
+ 4
+ 8
+ 64
+ 128
  0
  0
  0
@@ -560,16 +560,16 @@ compilerusedon=29
  0
  0
 debuggerusedon=6
- 4095
+ 3843
  0
  0
  0
  0
- 0
+ 252
 exeusedon=14
- 4095
+ 3999
  0
- 0
+ 96
  0
  0
  0
@@ -946,8 +946,8 @@ findhistory=20
  nottbuf
 findoptions=1
 editpos=2
- 0,116
- 0,31
+ 6,68
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 sourcefiles=2
@@ -997,8 +997,8 @@ windowlayout=612
  ny=0
  ncx=0
  ncy=0
- x=3
- y=24
+ x=16
+ y=29
  cx=1347
  cy=621
  rcx=0
@@ -1007,7 +1007,7 @@ windowlayout=612
   basedock,0,0,1337,604
  focusedchild=0
  wsize=0
- active=0
+ active=1
  visible=1
  [targetconsolefo]
  splitdir=0
@@ -1025,8 +1025,8 @@ windowlayout=612
  rcx=0
  rcy=0
  wsize=0
- active=1
- visible=1
+ active=0
+ visible=0
  [threadsfo]
  splitdir=0
  useroptions=805322857
