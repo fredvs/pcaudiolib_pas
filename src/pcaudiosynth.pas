@@ -29,7 +29,7 @@ samplerate : cfloat = 44100.0;
 audioobj : paudio_object = nil;
 lensine, ratio : cfloat;
 posine : integer;
-ordir, pc_FileName, libname: string;
+ordir, opath, pc_FileName, libname: string;
 x : integer = 0;
 typformat : integer = 0;
 ps : array of cint16;
@@ -82,8 +82,44 @@ libname := 'pcaudio.dll';
  {$ENDIF}
   
     ordir := IncludeTrailingBackslash(ExtractFilePath(ParamStr(0)));
-     pc_FileName := ordir + libname;
-    if pc_load(pc_FileName ) then
+
+
+ {$IFDEF Windows}
+     {$if defined(cpu64)}
+    pc_FileName := ordir + 'lib\Windows\64bit\' + libname;
+       {$else}
+    pc_FileName := ordir + 'lib\Windows\32bit\' + libname;
+     {$endif}
+ {$ENDIF}
+
+     {$if defined(cpu64) and defined(linux) }
+    pc_FileName := ordir + 'lib/Linux/64bit/'+ libname;
+    {$ENDIF}
+   
+   {$if defined(cpu86) and defined(linux)}
+ pc_FileName := ordir + 'lib/Linux/32bit/'+ libname;
+ {$ENDIF}
+ 
+  {$if defined(linux) and defined(cpuarm)}
+    pc_FileName := ordir + 'lib/Linux/arm_rpi/'+ libname;
+  {$ENDIF}
+ 
+ {$IFDEF freebsd}
+    {$if defined(cpu64)}
+    pc_FileName := ordir + 'lib/FreeBSD/64bit/'+ libname;
+    {$else}
+    pc_FileName := ordir + 'lib/FreeBSD/32bit/'+ libname;
+    {$endif}
+  {$ENDIF}
+
+ {$IFDEF Darwin}
+    opath := ordir;
+    opath := copy(opath, 1, Pos('/UOS', opath) - 1);
+    pc_FileName := opath + '/lib/Mac/32bit/libpcaudio.dylib';
+ {$ENDIF}
+
+
+   if pc_load(pc_FileName ) then
     writeln( pc_FileName + ' loaded.') else
     writeln(pc_FileName + ' NOT loaded.');
        
@@ -106,10 +142,14 @@ libname := 'pcaudio.dll';
     lensine := samplerate / freqsine *2 ; 
     posine := 0 ;
     x := 0;
+    
+    {$IFDEF Windows} 
+      ratio := 1; 
+       {$else}
+      if  typformat = 0 then ratio := 1.75 else ratio := 1; // Huh why ???
+       {$endif}
    
-    if  typformat = 0 then ratio := 1.75 else ratio := 1; // Huh why ???
-   
-  audioobj := create_audio_device_object(nil, nil, nil);
+   audioobj := create_audio_device_object(nil, nil, nil);
    
      if audioobj = nil then
     writeln('audioobj = nil ;(') else
@@ -122,10 +162,14 @@ libname := 'pcaudio.dll';
   end;
 
 //audio_object_drain(audioobj); 
-  
-  while x < round(2700 * ratio)  do
+  {$IFDEF Windows}
+   while x < round(2500 * ratio)  do
+       {$else}
+   while x < round(2700 * ratio)  do
+     {$endif}
+
 begin
-if freqsine < 8000 then
+if freqsine < 5000 then
 freqsine := freqsine +1 ;
 lensine := samplerate / freqsine *2 ; 
 ReadSynth;
