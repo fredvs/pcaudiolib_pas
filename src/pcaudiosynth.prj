@@ -225,7 +225,7 @@ options=114
  index=1
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=1
+ index=2
  [projectoptionsfo]
  stackedunder=
  x=302
@@ -1048,7 +1048,7 @@ windowlayout=616
  [memoryfo]
  splitdir=0
  useroptions=805322875
- stackedunder=about_form
+ stackedunder=dialogfilesfo
  parent=
  mdistate=0
  nx=0
@@ -1212,7 +1212,7 @@ windowlayout=616
  [objectinspectorfo]
  splitdir=0
  useroptions=805322859
- stackedunder=componentpalettefo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1404,7 +1404,7 @@ windowlayout=616
  [componentpalettefo]
  splitdir=0
  useroptions=805331051
- stackedunder=_mse_guitemplatesmo_mse_
+ stackedunder=
  parent=
  mdistate=3
  nx=0
@@ -1514,7 +1514,7 @@ windowlayout=616
   /home/fred/ideu/src/dialogfiles.pas
   /home/fred/ideu/src/confmsegui.pas
  [debuggerfo.project_options]
- value=5
+ value=2
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1537,7 +1537,7 @@ windowlayout=616
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=objectinspectorfo
+ stackedunder=_mse_guitemplatesmo_mse_
  parent=
  mdistate=0
  nx=0
