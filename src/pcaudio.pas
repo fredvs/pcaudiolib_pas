@@ -79,7 +79,7 @@ audio_object_format =(
   
  Paudio_object = ^audio_object; 
    
-  var create_audio_device_object: function(device, application_name, description: PCChar):paudio_object;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var create_audio_device_object: function(device, application_name, description: PChar):paudio_object;{$ifdef windows}stdcall{$else}cdecl{$endif};
   
   var audio_object_open: function(audobject:paudio_object; audioobjectformat:audio_object_format; rate:cuint32; channels:cuint8):longint;{$ifdef windows}stdcall{$else}cdecl{$endif};
 

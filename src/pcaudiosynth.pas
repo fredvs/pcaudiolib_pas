@@ -24,11 +24,15 @@ type
   end;
 
 var
-freqsine : cfloat = 150.0;
+freqsine : cfloat = 440.0;
 samplerate : cfloat = 44100.0;
+blocklen: cfloat = 1.0;  // in second
+chan : int8 = 1;
+
+arlen : int32;
 audioobj : paudio_object = nil;
 lensine, ratio : cfloat;
-posine : integer;
+posine : int32; 
 ordir, opath, pc_FileName, libname: string;
 x : integer = 0;
 typformat : integer = 0;
@@ -42,29 +46,29 @@ x2 : integer = 0;
 begin
   
    case typformat of
-  0: while x2 < length(ps) -1 do
+  0: while x2 < length(ps)- chan +1 do
   begin
-  ps[x2] := round( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )* 32767) ;
-  ps[x2+1] :=  ps[x2];
+  ps[x2] := round( Sin((((x2 div chan)+ posine)/ lensine ) * Pi * 2 )* 32767) ;
+ if chan = 2 then ps[x2+1] :=  ps[x2];
      if posine +1 > lensine -1 then posine := 0 else
   posine := posine +1 ;
-   x2 := x2 + 2 ;
+ if chan = 2 then x2 := x2 + 2 else inc(x2) ;
   end;
-  1: while x2 < length(pl) -1 do
+  1: while x2 < length(pl) - chan +1 do
   begin
-  pl[x2] := round( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )* 2147483647) ;
-  pl[x2+1] :=  pl[x2];
+  pl[x2] := round( Sin((((x2 div chan)+ posine)/ lensine ) * Pi * 2 )* 2147483647) ;
+  if chan = 2 then pl[x2+1] :=  pl[x2];
      if posine +1 > lensine -1 then posine := 0 else
   posine := posine +1 ;
-   x2 := x2 + 2 ;
+  if chan = 2 then x2 := x2 + 2 else inc(x2) ;
   end;
-  2: while x2 < length(pf) -1 do
+  2: while x2 < length(pf) - chan +1 do
   begin
-  pf[x2] := ( Sin((((x2 div 2)+ posine)/ lensine ) * Pi * 2 )) ;
-  pf[x2+1] :=  pf[x2];
+  pf[x2] := ( Sin((((x2 div chan)+ posine)/ lensine ) * Pi * 2 )) ;
+  if chan = 2 then pf[x2+1] :=  pf[x2];
      if posine +1 > lensine -1 then posine := 0 else
   posine := posine +1 ;
-   x2 := x2 + 2 ;
+  if chan = 2 then x2 := x2 + 2 else inc(x2) ;
   end;
   end;
    
@@ -122,71 +126,80 @@ libname := 'pcaudio.dll';
    if pc_load(pc_FileName ) then
     writeln( pc_FileName + ' loaded.') else
     writeln(pc_FileName + ' NOT loaded.');
+    
+  arlen :=  round(blocklen*samplerate);
        
-   setlength(ps,512*2);
-   setlength(pl,512*2);
-   setlength(pf,512*2);
+   setlength(ps,arlen);
+   setlength(pl,arlen);
+   setlength(pf,arlen);
    
    typformat := 0;
+   
+   chan := 1;
    
    while typformat < 3 do begin
   
    writeln();
     case typformat of
-  0: writeln('Test sine-wave format integer 16 bit...');
-  1: writeln('Test sine-wave format integer 32 bit...');
-  2: writeln('Test sine-wave format float 32 bit...');
+  0: writeln('Test sine-wave format integer 16 bit, ' + inttostr(chan) + ' channels...');
+  1: writeln('Test sine-wave format integer 32 bit, ' + inttostr(chan) + ' channels...');
+  2: writeln('Test sine-wave format float 32 bit, ' + inttostr(chan) + ' channels...');
   end;
   
-    freqsine := 150.0;
-    lensine := samplerate / freqsine *2 ; 
+    freqsine := 440.0;
+    lensine := samplerate / freqsine * 2 ; 
     posine := 0 ;
     x := 0;
     
     {$IFDEF Windows} 
       ratio := 1; 
        {$else}
-      if  typformat = 0 then ratio := 1.75 else ratio := 1; // Huh why ???
+      if  typformat = 0 then ratio := 1.85 else ratio := 1; // Huh why ???
        {$endif}
    
-   audioobj := create_audio_device_object(nil, nil, nil);
+   audioobj := create_audio_device_object(nil, pchar(''),pchar(''));
    
      if audioobj = nil then
     writeln('audioobj = nil ;(') else
     writeln('audioobj assigned.');
 
   case typformat of
-  0: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S16LE, 44100,2);
-  1: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S32LE, 44100,2);
-  2: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,2);
+  0: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S16LE, 44100,chan);
+  1: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_S32LE, 44100,chan);
+  2: audio_object_open(audioobj, AUDIO_OBJECT_FORMAT_FLOAT32LE, 44100,chan);
   end;
 
-//audio_object_drain(audioobj); 
   {$IFDEF Windows}
-   while x < round(2500 * ratio)  do
+   while x < 10  do
        {$else}
-   while x < round(2700 * ratio)  do
+   while x < 27 * ratio  do
      {$endif}
 
 begin
-if freqsine < 5000 then
-freqsine := freqsine +1 ;
-lensine := samplerate / freqsine *2 ; 
+
 ReadSynth;
+
  case typformat of
-  0: audio_object_write(audioobj,@ps[0], 512 ); 
-  1: audio_object_write(audioobj,@pl[0], 512*2 ); 
-  2: audio_object_write(audioobj,@pf[0], 512*2 ); 
+  0: audio_object_write(audioobj,pointer(ps), arlen*sizeof(ps[0]) {$IFDEF unix} div chan{$endif}); 
+  1: audio_object_write(audioobj,pointer(pl), arlen*sizeof(pl[0]) {$IFDEF unix} div chan{$endif}); 
+  2: audio_object_write(audioobj,pointer(pf), arlen*sizeof(pf[0]) {$IFDEF unix} div chan{$endif}); 
   end;
 inc(x);
 end;
 
-// audio_object_flush(audioobj);
-// audio_object_drain(audioobj); 
+ audio_object_flush(audioobj);
+ audio_object_drain(audioobj); 
  audio_object_close(audioobj);
  audio_object_destroy(audioobj);
  
  inc(typformat);
+ 
+ if (typformat = 3) and (chan = 1) then
+ begin
+ typformat := 0;
+ chan := 2;
+ end;
+ 
  
  sleep(500);
  end;
