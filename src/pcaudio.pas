@@ -74,26 +74,26 @@ audio_object_format =(
   Paudio_object_format = ^audio_object_format; 
   
   type
-    audio_object = object // ??
+    audio_object = record 
     end;
   
  Paudio_object = ^audio_object; 
    
-  var create_audio_device_object: function(device, application_name, description: PChar):paudio_object;cdecl;
+  var create_audio_device_object: function(device, application_name, description: PCChar):paudio_object;{$ifdef windows}stdcall{$else}cdecl{$endif};
   
-  var audio_object_open: function(audobject:paudio_object; audioobjectformat:audio_object_format; rate:cint32; channels:cint8):longint;cdecl;
+  var audio_object_open: function(audobject:paudio_object; audioobjectformat:audio_object_format; rate:cuint32; channels:cuint8):longint;{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_close: procedure(audobject:paudio_object);cdecl;
+  var audio_object_close: procedure(audobject:paudio_object);{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_destroy: procedure(audobject:paudio_object);cdecl;
+  var audio_object_destroy: procedure(audobject:paudio_object);{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_write: function(audobject:paudio_object; data:pointer; bytes:size_t):longint;cdecl;
+  var audio_object_write: function(audobject:paudio_object; data:pointer; bytes:size_t):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_drain: function(audobject:paudio_object):longint;cdecl;
+  var audio_object_drain: function(audobject:paudio_object):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_flush: function(audobject:paudio_object):longint;cdecl;
+  var audio_object_flush: function(audobject:paudio_object):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
 
-  var audio_object_strerror: function(audobject:paudio_object; error:longint):Pchar;cdecl;
+  var audio_object_strerror: function(audobject:paudio_object; error:longint):PCchar; {$ifdef windows}stdcall{$else}cdecl{$endif};
 
       {Special function for dynamic loading of lib ...}
 
