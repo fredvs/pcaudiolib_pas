@@ -946,7 +946,7 @@ findhistory=20
  nottbuf
 findoptions=1
 editpos=2
- 0,171
+ 0,-1073741823
  0,89
 bookmarks0=0
 bookmarks1=0
@@ -1514,7 +1514,7 @@ windowlayout=616
   /home/fred/ideu/src/dialogfiles.pas
   /home/fred/ideu/src/confmsegui.pas
  [debuggerfo.project_options]
- value=1
+ value=5
  [debuggerfo.hints]
  value=0
  [sourcefo]
