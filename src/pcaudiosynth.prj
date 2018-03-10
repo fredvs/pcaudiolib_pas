@@ -925,8 +925,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=19
-finddtext=fblocklen
+finddtext=ratio
 findhistory=20
+ ratio
  fblocklen
  HAVE_PCAUDIOLIB_AUDIO_H
  ;
@@ -946,10 +947,9 @@ findhistory=20
  inputaddf
  alsobuf
  memorybuffer
- filter
 findoptions=1
 editpos=3
- 0,168
+ 0,153
  0,-1073741823
  0,-1073741823
 bookmarks0=0
@@ -1480,7 +1480,7 @@ windowlayout=585
  value=/home/fred/pcaudiolib_pas/src/pcaudiosynth.pas
  history=0
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]

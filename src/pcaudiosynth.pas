@@ -31,7 +31,7 @@ chan : int8 ;
 
 arlen : int32;
 audioobj : paudio_object = nil;
-lensine, ratio : cfloat;
+lensine : cfloat;
 posine : int32; 
 ordir, opath, pc_FileName, libname: string;
 x : integer = 0;
@@ -151,8 +151,6 @@ libname := 'pcaudio.dll';
     posine := 0 ;
     x := 0;
     
-    if  typformat = 0 then ratio := 1 else ratio := 2; //
-        
    audioobj := create_audio_device_object(nil, pchar(''),pchar(''));
    
      if audioobj = nil then
