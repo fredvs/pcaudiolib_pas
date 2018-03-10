@@ -27,7 +27,7 @@ var
 freqsine : cfloat = 440.0;
 samplerate : cfloat = 44100.0;
 blocklen: cfloat = 1.0;  // in second
-chan : int8 = 1;
+chan : int8 ;
 
 arlen : int32;
 audioobj : paudio_object = nil;
@@ -144,19 +144,15 @@ libname := 'pcaudio.dll';
   0: writeln('Test sine-wave format integer 16 bit, ' + inttostr(chan) + ' channels...');
   1: writeln('Test sine-wave format integer 32 bit, ' + inttostr(chan) + ' channels...');
   2: writeln('Test sine-wave format float 32 bit, ' + inttostr(chan) + ' channels...');
-  end;
+     end;
   
     freqsine := 440.0;
     lensine := samplerate / freqsine * 2 ; 
     posine := 0 ;
     x := 0;
     
-    {$IFDEF Windows} 
-      ratio := 1; 
-       {$else}
-      if  typformat = 0 then ratio := 1.85 else ratio := 1; // Huh why ???
-       {$endif}
-   
+    if  typformat = 0 then ratio := 1 else ratio := 2; //
+        
    audioobj := create_audio_device_object(nil, pchar(''),pchar(''));
    
      if audioobj = nil then
@@ -170,9 +166,9 @@ libname := 'pcaudio.dll';
   end;
 
   {$IFDEF Windows}
-   while x < 10  do
+   while x < 8  do
        {$else}
-   while x < 27 * ratio  do
+   while x < 2 * chan  do
      {$endif}
 
 begin
@@ -180,13 +176,12 @@ begin
 ReadSynth;
 
  case typformat of
-  0: audio_object_write(audioobj,pointer(ps), arlen*sizeof(ps[0]) {$IFDEF unix} div chan{$endif}); 
-  1: audio_object_write(audioobj,pointer(pl), arlen*sizeof(pl[0]) {$IFDEF unix} div chan{$endif}); 
-  2: audio_object_write(audioobj,pointer(pf), arlen*sizeof(pf[0]) {$IFDEF unix} div chan{$endif}); 
+  0: audio_object_write(audioobj,pointer(ps), arlen*sizeof(ps[0])); 
+  1: audio_object_write(audioobj,pointer(pl), arlen*sizeof(pl[0])); 
+  2: audio_object_write(audioobj,pointer(pf), arlen*sizeof(pf[0])); 
   end;
 inc(x);
 end;
-
  audio_object_flush(audioobj);
  audio_object_drain(audioobj); 
  audio_object_close(audioobj);
