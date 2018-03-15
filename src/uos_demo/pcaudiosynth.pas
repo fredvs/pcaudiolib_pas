@@ -87,13 +87,13 @@ begin
     {$IFDEF UNIX}
 libname := 'LibPcaudio-64.so';
    {$else}
-libname := 'libpcaudio-64.dll';
+libname := 'LibPcaudio-64.dll';
  {$ENDIF}
  {$else}
    {$IFDEF UNIX}
 libname := 'LibPcaudio-32.so';
    {$else}
-libname := 'libpcaudio-64.dll';
+libname := 'LibPcaudio-32.dll';
  {$ENDIF}
  {$ENDIF}
   

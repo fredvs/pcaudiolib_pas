@@ -7175,9 +7175,11 @@ begin
     {$IF DEFINED(pcaudio)}
    if (StreamOut[x].Data.HandleSt <> nil) and
    (StreamOut[x].Data.TypePut = 5) then begin
-    audio_object_flush(StreamOut[x].Data.HandleSt);
-    audio_object_close(StreamOut[x].Data.HandleSt);
-    audio_object_destroy(StreamOut[x].Data.HandleSt);
+ 
+ //   audio_object_flush(StreamOut[x].Data.HandleSt);
+ //   audio_object_close(StreamOut[x].Data.HandleSt);
+ //   audio_object_destroy(StreamOut[x].Data.HandleSt);
+    
    end;
    {$endif}
 
@@ -7425,6 +7427,7 @@ begin
   {$endif}
 
 //  err :=// if you want clean buffer
+
 case StreamOut[x].Data.SampleFormat of
   2: sizsam := sizeof(cint16);
   1: sizsam := sizeof(cint32);
@@ -7443,15 +7446,14 @@ case StreamOut[x].Data.SampleFormat of
   end else
   begin
     audio_object_write(StreamOut[x].Data.HandleSt,pointer(StreamOut[x].Data.Buffer),
-   sizsam * StreamIn[x2].Data.outframes div (StreamIn[x2].Data.ratio div StreamIn[x2].Data.channels)); 
+  sizsam * StreamIn[x2].Data.outframes div (StreamIn[x2].Data.ratio div StreamIn[x2].Data.channels)); 
   end;
 // if err <> 0 then status := 0;// if you want clean buffer ...
 {$IF DEFINED(debug)}
- writeln('End give to output device 2');
+ writeln('End give to output device 5');
 {$endif}
   end;
   {$endif}
-  
 
   {$IF DEFINED(shout)}
   2:// Give to IceCast server
@@ -9295,15 +9297,10 @@ begin
   Enabled:= False;
   Name:= '';
 
-//TODO: check this block
   {$IF DEFINED(windows)}
-   {$if defined(cpu64)}
-   PlugHandle:= 0;
-   {$else}
-   PlugHandle:= -1;
-   {$ENDIF}
+  PlugHandle:= 0;
   {$else}
-  PlugHandle:= nil;//<- I see in uos: if not windows = "THandle = pointer"
+  PlugHandle:= nil;
   {$endif}
 
   {$IF DEFINED(bs2b) or DEFINED(soundtouch)}
@@ -9363,7 +9360,7 @@ end;
 begin
   evPause := RTLEventCreate;
   
-  Index:= -1;//default for indipendent instance
+  Index:= -1;//default for independent instance
    
   isAssigned := true; 
   isGlobalPause := false;

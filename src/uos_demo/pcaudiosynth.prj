@@ -939,13 +939,13 @@ findhistory=20
  dspvolume
 findoptions=1
 editpos=2
- 0,112
- 0,0
+ 0,89
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 sourcefiles=2
- /home/fred/pcaudiolib_pas/src/uos_demo/pcaudiosynth.pas
- /home/fred/pcaudiolib_pas/src/uos_demo/uos_pcaudio.pas
+ ${PROJECTDIR}/pcaudiosynth.pas
+ ${PROJECTDIR}/uos_pcaudio.pas
 relpaths=2
  pcaudiosynth.pas
  uos_pcaudio.pas
@@ -1461,7 +1461,7 @@ windowlayout=585
  value=/home/fred/pcaudiolib_pas/src/uos_demo/pcaudiosynth.pas
  history=0
  [debuggerfo.project_options]
- value=B
+ value=5
  [debuggerfo.hints]
  value=1
  [sourcefo]

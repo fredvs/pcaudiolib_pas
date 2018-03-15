@@ -359,6 +359,13 @@ if uos_LoadLib(Pchar(AnsiString(mainfo.padir.value)),
       then plugbs2b := true else chkst2b.enabled := false; 
           
       mainfo.caption := 'Simple Player.    uos Version ' + inttostr(uos_getversion());
+  
+     {$IFDEF Windows}
+     usealsa.value := false;
+     usealsa.visible := false;
+     groupdevout.top := 10;
+     {$endif}
+     
        Show;
     end;
   end;

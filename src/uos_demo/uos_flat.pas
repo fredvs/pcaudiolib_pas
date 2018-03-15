@@ -795,6 +795,7 @@ var
   uosDeviceCount: cint32;
   uosDefaultDeviceIn: cint32;
   uosDefaultDeviceOut: cint32;
+  //firstload : boolean = true;
  
 implementation
 
@@ -2142,7 +2143,6 @@ uosDefaultDeviceOut:= uos.uosDefaultDeviceOut;
 end;
 {$endif}
 
-
 function uos_CreatePlayer(PlayerIndex : cint32): boolean;
 // Create the player , PlayerIndex1 : from 0 to what your computer can do !
 // If PlayerIndex exists already, it will be overwriten...
@@ -2152,7 +2152,7 @@ nt : integer = 200;
 begin
 result := false;
 
-uos_stop(PlayerIndex);
+uos_stop(PlayerIndex); // cannot hurt !
 
 if PlayerIndex >= 0 then 
 begin

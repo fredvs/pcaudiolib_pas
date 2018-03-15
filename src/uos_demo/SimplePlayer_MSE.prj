@@ -69,7 +69,7 @@ order16=0
 [projectoptions]
 projectdir=/home/fred/pcaudiolib_pas/src/uos_demo
 projectfilename=/home/fred/pcaudiolib_pas/src/uos_demo/SimplePlayer_MSE.prj
-findinfiledialog=57
+findinfiledialog=58
  [findinfileadialogfo.subdirs]
  value=1
  [findinfileadialogfo.incurrentfile]
@@ -103,8 +103,9 @@ findinfiledialog=57
  filefilterindex=0
  filefilter="*.pas" "*.pp" "*.inc" "*.mfm"
  [findinfileadialogfo.findtext]
- value=fft: TuosF_FFT
- history=16
+ value=cdecl
+ history=17
+  cdecl
   fft: TuosF_FFT
   DSPReverseAfter
   uos_InputSetFilter
@@ -136,14 +137,15 @@ finddialog=8
  y=219
  cx=331
  cy=116
-replacedialog=17
+replacedialog=18
  [replacedialogfo.promptonreplace]
  value=1
  [replacedialogfo.selectedonly]
  value=0
  [replacedialogfo.replacetext]
- value=ES_ExeFileName
- history=4
+ value= cdecl ;
+ history=5
+   cdecl ;
   ES_ExeFileName
   sak
   SakCancel
@@ -152,8 +154,8 @@ replacedialog=17
  stackedunder=
  x=280
  y=299
- cx=421
- cy=163
+ cx=494
+ cy=174
 options=114
  [projectoptionsfo.toolshortcuts]
  dropdowncolwidths=3
@@ -241,7 +243,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=0
+ index=2
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=803
  width0=47
@@ -564,16 +566,16 @@ befcommandon=0
 makeoptionson=6
  2559
  2559
- 2557
+ 2365
  0
- 2323
- 2547
+ 2515
+ 2291
 compilerusedon=29
- 4095
+ 3903
  0
  0
- 0
- 0
+ 64
+ 128
  0
  0
  0
@@ -599,16 +601,16 @@ compilerusedon=29
  0
  0
 debuggerusedon=6
- 4058
+ 3866
  0
  0
  0
  0
- 37
+ 229
 exeusedon=15
- 4095
+ 3903
  0
- 0
+ 192
  0
  0
  0
@@ -643,8 +645,8 @@ project_comment=
 aftcommandon=0
 unitdirson=4
  200703
- 69615
- 983056
+ 69439
+ 983232
  69631
 macroon=0
 macronames=0
@@ -885,13 +887,17 @@ envvarons=0
 [edit]
 hintwidth=314
 hintheight=214
-finddtext=writeo
+finddtext=plughandle
 findhistory=20
+ plughandle
+ {$ifdef windows}cdecl{$else}cdecl{$endif};
+ {$ifdef windows}stdcall{$else}cdecl{$endif};
+ audio_object
+ doterminate
  writeo
  writeplu
  addintodev
  createpla
- audio_object
  Data.ratio
  setlength
  addfromf
@@ -903,24 +909,20 @@ findhistory=20
  (Data.OutFrames div ratio)
  uos_DSPVolume
  InputAddDSPVolume
- SampleFormat
- _float
- id3
- ChangePlugSetSoundTouch
 findoptions=1
 editpos=12
+ 0,9408
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
+ 0,0
  0,-1073741823
  0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 41,8
+ 0,2145
+ 0,87
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -945,7 +947,7 @@ sourcefiles=12
  ${PROJECTDIR}/mainmse_sp.pas
  /home/fred/strumpract/src/songplayer.pas
  ${PROJECTDIR}/uos_flat.pas
- /home/fred/strumpract/src/songplayer.mfm
+ ${PROJECTDIR}/uos_pcaudio.pas
 relpaths=12
  uos.pas
  uos_soundtouch.pas
@@ -958,7 +960,7 @@ relpaths=12
  mainmse_sp.pas
  strumpract/src/songplayer.pas
  uos_flat.pas
- ../../strumpract/src/songplayer.mfm
+ uos_pcaudio.pas
 ismoduletexts=12
  0
  0
@@ -971,7 +973,7 @@ ismoduletexts=12
  0
  0
  0
- -1
+ 0
 modules=1
  /home/fred/pcaudiolib_pas/src/uos_demo/mainmse_sp.mfm
 moduleoptions=1
@@ -983,8 +985,8 @@ nomenumodules=1
 [sourcefo.files_tab]
 order=12
  0
- 11
  7
+ 11
  8
  10
  4
@@ -995,9 +997,9 @@ order=12
  3
  2
 firsttab=0
-index=1
+index=4
 [layout]
-windowlayout=558
+windowlayout=608
  [mainfo.basedock]
  splitdir=2
  useroptions=11395
@@ -1010,8 +1012,8 @@ windowlayout=558
  ncy=0
  x=0
  y=0
- cx=1147
- cy=604
+ cx=1356
+ cy=694
  rcx=0
  rcy=0
  [mainfo]
@@ -1023,16 +1025,16 @@ windowlayout=558
  ny=0
  ncx=0
  ncy=0
- x=125
+ x=126
  y=46
  cx=1157
  cy=621
  rcx=0
  rcy=0
  children=1
-  basedock,0,0,1147,604
+  basedock,0,0,1356,694
  focusedchild=0
- wsize=0
+ wsize=6
  active=1
  visible=1
  [targetconsolefo]
@@ -1120,7 +1122,7 @@ windowlayout=558
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=
+ stackedunder=mainfo
  parent=
  mdistate=0
  nx=0
@@ -1145,15 +1147,15 @@ windowlayout=558
  ncy=0
  x=0
  y=0
- cx=205
- cy=455
+ cx=67
+ cy=523
  rcx=0
  rcy=0
  [projecttreefo.grid]
- propcolwidthref=88
+ propcolwidthref=1
  width0=117
  sortdescend0=0
- width1=82
+ width1=1
  sortdescend1=0
  sorted=0
  col=1
@@ -1255,10 +1257,10 @@ windowlayout=558
  active=0
  visible=0
  [objectinspectorfo.grid]
- propcolwidthref=306
- width0=136
+ propcolwidthref=291
+ width0=129
  sortdescend0=0
- width1=164
+ width1=156
  sortdescend1=0
  [symbolfo]
  splitdir=0
@@ -1351,9 +1353,9 @@ windowlayout=558
  ncx=0
  ncy=0
  x=0
- y=512
- cx=1147
- cy=92
+ y=588
+ cx=1356
+ cy=106
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1452,8 +1454,8 @@ windowlayout=558
  ncy=0
  x=0
  y=0
- cx=1147
- cy=51
+ cx=1356
+ cy=59
  rcx=0
  rcy=0
  [debuggerfo.basedock]
@@ -1468,8 +1470,8 @@ windowlayout=558
  ncy=54
  x=0
  y=0
- cx=1147
- cy=54
+ cx=1356
+ cy=62
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
@@ -1479,10 +1481,60 @@ windowlayout=558
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/strumpract/src/songplayer.mfm
- history=0
+ value=/home/fred/pcaudiolib_pas/src/uos_demo/uos_flat.pas
+ history=50
+  /home/fred/strumpract/src/songplayer.pas
+  /home/fred/uos/examples/SimplePlayer_MSE.pas
+  /home/fred/uos/examples/mainmse_sp.pas
+  /home/fred/uos/examples/consoleplay.pas
+  /home/fred/pcaudiolib_pas/src/pcaudiosynth.pas
+  /usr/local/codetyphon/typhon/components/pl_TitanSound/source/tsd_tag_id3v2.pas
+  /home/fred/pcaudiolib_pas/src/pcaudio.pas
+  /home/fred/pcaudio/main.pas
+  /home/fred/msepcaudio/main.pas
+  /home/fred/msepcaudio/msepcaudio.pas
+  /home/fred/pcaudiolib-master/src/xaudio2.cpp
+  /home/fred/pcaudiolib-master/src/audio_priv.h
+  /home/fred/uos/examples/uos_mpg123.pas
+  /home/fred/uos/examples/uos_portaudio.pas
+  /home/fred/uos/examples/main_sp.lfm
+  /home/fred/uos/examples/fpc_ct.cfg
+  /home/fred/uoslibCT/src/fpcct_android.cfg
+  /home/fred/uos/examples/main_wf.pas
+  /home/fred/ideu/src/confideu.pas
+  /home/fred/ideu/src/ideusettings.pas
+  /home/fred/ideu/src/msewidgets.pas
+  /home/fred/strumpract/src/aboutform.pas
+  /home/fred/strumpract/src/main.pas
+  /home/fred/strumpract/src/config.pas
+  /home/fred/uos/examples/uoslib.pas
+  /home/fred/uos/examples/uos_libsndfile.pas
+  /home/fred/uos/examples/uos.pas
+  /home/fred/uoslib/src/uos_mpg123.pas
+  /home/fred/uoslib/src/uos_libsndfile.pas
+  /home/fred/uoslib/src/uos_portaudio.pas
+  /home/fred/uoslib/examples/demos/java/ReadMe.txt
+  /home/fred/lib_namesh.inc
+  /home/fred/msewidgets.pas
+  /home/fred/uoslib/src/uoslib.pas
+  /home/fred/strumpract/src/define.inc
+  /home/fred/strumpract/src/uos.pas
+  /home/fred/mseconsts.pas
+  /home/fred/ideu/src/mseconsts.pas
+  /home/fred/msegui/lib/common/kernel/mseconsts.pas
+  /home/fred/uos/examples/multiplayer_fpGUI.pas
+  /home/fred/uos/examples/uos_dsp_utils.pas
+  /home/fred/uos/src/uos_flat.pas
+  /home/fred/uos/src/uos_mpg123.pas
+  /home/fred/uos/src/uos.pas
+  /home/fred/uos/src/uos_aac.pas
+  /home/fred/strumpract/src/strumpract.pas
+  /home/fred/uos/examples/consolebpmdetect.pas
+  /home/fred/strumpract/src/songplayer2.pas
+  /home/fred/strumpract/src/drums.pas
+  /home/fred/strumpract/src/infos.pas
  [debuggerfo.project_options]
- value=B
+ value=6
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1495,10 +1547,10 @@ windowlayout=558
  ny=0
  ncx=0
  ncy=0
- x=208
+ x=70
  y=0
- cx=939
- cy=455
+ cx=1286
+ cy=523
  rcx=0
  rcy=0
  [cpuc86_64fo]
@@ -1532,9 +1584,9 @@ windowlayout=558
  ncx=0
  ncy=0
  x=0
- y=54
- cx=1147
- cy=455
+ y=62
+ cx=1356
+ cy=523
  rcx=0
  rcy=0
  [_mse_simple_player_mse_]

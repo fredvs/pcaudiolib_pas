@@ -24,11 +24,13 @@ libpc=
   {$ENDIF}  
 
 type
+ {$IFDEF unix}
 {$if defined(cpu64)}
   size_t = cuint64;
 {$else}
   size_t = cuint32;
 {$endif}
+ {$ENDIF}  
  
 audio_object_format =(
       AUDIO_OBJECT_FORMAT_S8 = 0,
@@ -79,21 +81,21 @@ audio_object_format =(
   
  Paudio_object = ^audio_object; 
    
-  var create_audio_device_object: function(device, application_name, description: PChar):paudio_object;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var create_audio_device_object: function(device, application_name, description: PChar):paudio_object; cdecl ;
   
-  var audio_object_open: function(audobject:paudio_object; audioobjectformat:audio_object_format; rate:cuint32; channels:cuint8):longint;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_open: function(audobject:paudio_object; audioobjectformat:audio_object_format; rate:cuint32; channels:cuint8):longint; cdecl ;
 
-  var audio_object_close: procedure(audobject:paudio_object);{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_close: procedure(audobject:paudio_object); cdecl ;
 
-  var audio_object_destroy: procedure(audobject:paudio_object);{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_destroy: procedure(audobject:paudio_object); cdecl ;
 
-  var audio_object_write: function(audobject:paudio_object; data:pointer; bytes:size_t):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_write: function(audobject:paudio_object; data:pointer; bytes:size_t):cint; cdecl ;
 
-  var audio_object_drain: function(audobject:paudio_object):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_drain: function(audobject:paudio_object):cint; cdecl ;
 
-  var audio_object_flush: function(audobject:paudio_object):cint;{$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_flush: function(audobject:paudio_object):cint; cdecl ;
 
-  var audio_object_strerror: function(audobject:paudio_object; error:longint):PCchar; {$ifdef windows}stdcall{$else}cdecl{$endif};
+  var audio_object_strerror: function(audobject:paudio_object; error:longint):PCchar;  cdecl ;
 
       {Special function for dynamic loading of lib ...}
 
