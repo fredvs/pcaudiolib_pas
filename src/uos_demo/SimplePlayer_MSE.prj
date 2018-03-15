@@ -887,12 +887,12 @@ envvarons=0
 [edit]
 hintwidth=314
 hintheight=214
-finddtext=plughandle
+finddtext=audio_object
 findhistory=20
+ audio_object
  plughandle
  {$ifdef windows}cdecl{$else}cdecl{$endif};
  {$ifdef windows}stdcall{$else}cdecl{$endif};
- audio_object
  doterminate
  writeo
  writeplu
@@ -911,18 +911,18 @@ findhistory=20
  InputAddDSPVolume
 findoptions=1
 editpos=12
- 0,9408
+ 0,4775
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,0
+ 0,-1073741823
  0,-1073741823
  0,-1073741823
  0,2145
- 0,87
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -997,7 +997,7 @@ order=12
  3
  2
 firsttab=0
-index=4
+index=0
 [layout]
 windowlayout=608
  [mainfo.basedock]
@@ -1122,7 +1122,7 @@ windowlayout=608
  [findinfilefo]
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=
  parent=
  mdistate=0
  nx=0
@@ -1466,8 +1466,8 @@ windowlayout=608
  mdistate=0
  nx=0
  ny=0
- ncx=1147
- ncy=54
+ ncx=1356
+ ncy=62
  x=0
  y=0
  cx=1356
@@ -1481,7 +1481,7 @@ windowlayout=608
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/pcaudiolib_pas/src/uos_demo/uos_flat.pas
+ value=/home/fred/pcaudiolib_pas/src/uos_demo/uos.pas
  history=50
   /home/fred/strumpract/src/songplayer.pas
   /home/fred/uos/examples/SimplePlayer_MSE.pas
@@ -1534,7 +1534,7 @@ windowlayout=608
   /home/fred/strumpract/src/drums.pas
   /home/fred/strumpract/src/infos.pas
  [debuggerfo.project_options]
- value=6
+ value=5
  [debuggerfo.hints]
  value=0
  [sourcefo]

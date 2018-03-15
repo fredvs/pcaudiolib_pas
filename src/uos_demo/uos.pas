@@ -7176,9 +7176,9 @@ begin
    if (StreamOut[x].Data.HandleSt <> nil) and
    (StreamOut[x].Data.TypePut = 5) then begin
  
- //   audio_object_flush(StreamOut[x].Data.HandleSt);
- //   audio_object_close(StreamOut[x].Data.HandleSt);
- //   audio_object_destroy(StreamOut[x].Data.HandleSt);
+    audio_object_flush(StreamOut[x].Data.HandleSt);
+    audio_object_close(StreamOut[x].Data.HandleSt);
+    audio_object_destroy(StreamOut[x].Data.HandleSt);
     
    end;
    {$endif}
