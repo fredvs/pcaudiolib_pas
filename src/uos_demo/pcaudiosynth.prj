@@ -939,7 +939,7 @@ findhistory=20
  dspvolume
 findoptions=1
 editpos=2
- 0,89
+ 0,76
  0,-1073741823
 bookmarks0=0
 bookmarks1=0
@@ -1461,7 +1461,7 @@ windowlayout=585
  value=/home/fred/pcaudiolib_pas/src/uos_demo/pcaudiosynth.pas
  history=0
  [debuggerfo.project_options]
- value=5
+ value=1
  [debuggerfo.hints]
  value=1
  [sourcefo]
@@ -1538,7 +1538,7 @@ windowlayout=585
  [_mse_mainfo_mse_]
  splitdir=0
  useroptions=805322875
- stackedunder=targetconsolefo
+ stackedunder=threadsfo
  parent=
  mdistate=0
  nx=0

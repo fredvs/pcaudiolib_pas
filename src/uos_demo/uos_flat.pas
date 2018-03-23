@@ -348,10 +348,10 @@ function uos_AddIntoFileFromMem(PlayerIndex: cint32; Filename: PChar): cint32;
 // PlayerIndex : Index of a existing Player
 // FileName : filename of saved audio wav file
 
-{$IF DEFINED(portaudio)}
+ {$IF DEFINED(portaudio) or DEFINED(pcaudio)}
 function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
   SampleRate: cint32; OutputIndex: cint32;
-  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32): cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32 ; TypeLibrary : cint8 ): cint32;
 // Add a Input from Device Input with custom parameters
 // PlayerIndex : Index of a existing Player
 // Device ( -1 is default Input device )
@@ -361,8 +361,14 @@ function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
 // SampleFormat : default : -1 (1:Int16) (0: Float32, 1:Int32, 2:Int16)
 // FramesCount : default : -1 (65536)
 // ChunkCount : default : -1 (= 512)
+// TypeLibrary : default : -1 (default = Portaudio) (Portaudio = 0, PCaudio = 1)
 //  result :  Output Index in array
-// example : OutputIndex1 := uos_AddFromDevIn(0,-1,-1,-1,-1,-1,-1);
+// example : OutputIndex1 := uos_AddFromDevIn(0,-1,-1,-1,-1,-1,-1,-1);
+
+function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
+  SampleRate: cint32; OutputIndex: cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32 ): cint32;
+// for compatibility with earlier uos version ---> lib used = Portaudio
 
 function uos_AddFromDevIn(PlayerIndex: cint32): cint32;
 // Add a Input from Device Input with default parameters
@@ -1168,10 +1174,10 @@ if (length(uosPlayers) > 0) and (PlayerIndex +1 <= length(uosPlayers)) then
   TypeFilter, AlsoBuf, Enable, Proc);
 end;
 
-{$IF DEFINED(portaudio)}
+{$IF DEFINED(portaudio) or DEFINED(pcaudio)}
 function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
   SampleRate: cint32; OutputIndex: cint32;
-  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32): cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32; TypeLibrary : cint8): cint32;
 // Add a Input from Device Input with custom parameters
 // PlayerIndex : Index of a existing Player
 // Device ( -1 is default Input device )
@@ -1182,6 +1188,7 @@ function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
 // SampleFormat : default : -1 (1:Int16) (0: Float32, 1:Int32, 2:Int16)
 // FramesCount : default : -1 (65536)
 // ChunkCount : default : -1 (= 512)
+// TypeLibrary : default : -1 (default = Portaudio) (Portaudio = 0, PCaudio = 1)
 //  result : Output Index in array , -1 is error
 // example : OutputIndex1 := uos_AddFromDevIn(0,-1,-1,-1,-1,-1,-1);
 begin
@@ -1190,18 +1197,32 @@ begin
   if  uosPlayersStat[PlayerIndex] = 1 then
   if assigned(uosPlayers[PlayerIndex]) then
   Result :=  uosPlayers[PlayerIndex].AddFromDevIn(Device, Latency, SampleRate, OutputIndex,
-  SampleFormat, FramesCount, ChunkCount) ;
+  SampleFormat, FramesCount, ChunkCount, TypeLibrary) ;
+end;
+
+function uos_AddFromDevIn(PlayerIndex: cint32; Device: cint32; Latency: CDouble;
+  SampleRate: cint32; OutputIndex: cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32): cint32;
+// for compatibility with earlier uos ---> use Portaudio lib
+begin
+result := -1 ;
+  if (length(uosPlayers) > 0) and (PlayerIndex +1 <= length(uosPlayers)) then
+  if  uosPlayersStat[PlayerIndex] = 1 then
+  if assigned(uosPlayers[PlayerIndex]) then
+  Result :=  uosPlayers[PlayerIndex].AddFromDevIn(Device, Latency, SampleRate, OutputIndex,
+  SampleFormat, FramesCount, ChunkCount, -1) ;
 end;
 
 function uos_AddFromDevIn(PlayerIndex: cint32): cint32;
-// Add a Input from Device Input with custom parameters
+// Add a Input from Device Input with default parameters
 // PlayerIndex : Index of a existing Player
 begin
 result := -1 ;
   if (length(uosPlayers) > 0) and (PlayerIndex +1 <= length(uosPlayers)) then
   if  uosPlayersStat[PlayerIndex] = 1 then
   if assigned(uosPlayers[PlayerIndex]) then
-  Result :=  uosPlayers[PlayerIndex].AddFromDevIn(-1, -1, -1, -1, -1, -1, -1) ;
+  Result :=  uosPlayers[PlayerIndex].AddFromDevIn(-1, -1, -1, -1, -1, -1, -1, -1) ;
+  
 end;
 {$endif}
 
@@ -2151,8 +2172,13 @@ x : cint32;
 nt : integer = 200;
 begin
 result := false;
-
-uos_stop(PlayerIndex); // cannot hurt !
+{$IF DEFINED(debug)}
+ writeln('before uos_stop(PlayerIndex)');
+ {$endif}  
+ uos_stop(PlayerIndex); // cannot hurt !
+ {$IF DEFINED(debug)}
+ writeln('after uos_stop(PlayerIndex)');
+ {$endif}  
 
 if PlayerIndex >= 0 then 
 begin
@@ -2187,6 +2213,11 @@ end;
    uosPlayers[PlayerIndex] := Tuos_Player.Create();
   
   result:= True;
+  
+ {$IF DEFINED(debug)}
+ writeln(' uosPlayers[PlayerIndex] := Tuos_Player.Create()');
+{$endif}  
+  
 
   uosPlayers[PlayerIndex].Index := PlayerIndex;
 //notice player is created
@@ -2198,8 +2229,11 @@ end;
    uosPlayersStat[x] := -1 ;
    uosPlayers[x] := nil ;
    end;
-
-   end;
+   
+ {$IF DEFINED(debug)}
+ writeln('for x := 0 to length(uosPlayersStat) -1 ---> end');
+{$endif}  
+    end;
 end;
 
 procedure uos_Free();

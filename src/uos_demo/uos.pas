@@ -330,7 +330,7 @@ type
   Enabled: boolean;
   
   TypePut: integer;
-// -1 : nothing,  for Input  : 0: from audio file, 1: from input device (like mic),
+// -1 : nothing,  for Input  : 0: from audio file, 1: from input device Portaudio (like mic), 6: from input device PCaudio (like mic)
                           // 2: from internet audio stream, 3: from Synthesizer, 4: from memory buffer, 5: from endless-muted
              // for Output : 0: into wav file from filestream, 1: into output device Portaudio, 2: into stream server,
              //              3: into memory buffer, 4: into wav from memorystream, 5: into output device PCaudio
@@ -340,6 +340,7 @@ type
   
   Buffer: TDArFloat;
   MemoryBuffer: TDArFloat;
+  
   MemoryStream : Tmemorystream;
   posmem : longint;
  
@@ -595,7 +596,7 @@ type
   {$endif}
   procedure ReadEndless(x : integer); 
   procedure ReadMem(x : integer); 
-  {$IF DEFINED(portaudio)}
+  {$IF DEFINED(portaudio) or DEFINED(pcaudio)}
   procedure ReadDevice(x : integer); 
   {$endif}
   procedure WriteOutPlug(x:integer;  x2 : integer);  
@@ -762,12 +763,12 @@ type
 //  result :  Output Index in array  -1 = error
  {$endif}
 
- {$IF DEFINED(portaudio)}
+ {$IF DEFINED(portaudio) or DEFINED(pcaudio)}
   function AddFromDevIn(Device: cint32; Latency: CDouble;
   SampleRate: cint32; OutputIndex: cint32;
-  SampleFormat: cint32; FramesCount : cint32 ; ChunkCount: cint32): cint32;
+  SampleFormat: cint32; FramesCount : cint32 ; ChunkCount: cint32; TypeLibrary : cint8): cint32;
 // Add a Input from Device Input with custom parameters
-// Device ( -1 is default Input device )
+// Device ( -1 is default Input device, with TypeLibrary = PCaudio ---> -1 = Pulse, 1 = ALSA)
 // Latency  ( -1 is latency suggested ) )
 // SampleRate : delault : -1 (44100)
 // OutputIndex : Output index of used output// -1: all output, -2: no output, other cint32 refer to a existing OutputIndex  (if multi-output then OutName = name of each output separeted by ';')
@@ -775,7 +776,13 @@ type
 // FramesCount : default : -1 (4096)
 // ChunkCount : default : -1 (= 512)
 //  result :  otherwise Output Index in array  -1 = error
-// example : OutputIndex1 := AddFromDevice(-1,-1,-1,-1,-1, -1);
+// TypeLibrary : default : -1 (default = Portaudio) (Portaudio = 0, PCaudio = 1)
+// example : OutputIndex1 := AddFromDevice(-1,-1,-1,-1,-1, -1, -1);
+
+  function AddFromDevIn(Device: cint32; Latency: CDouble;
+  SampleRate: cint32; OutputIndex: cint32;
+  SampleFormat: cint32; FramesCount : cint32 ; ChunkCount: cint32): cint32;
+// For compatibility with earlier uos version
 {$endif}
 
 function AddFromEndlessMuted(Channels : cint32; FramesCount: cint32): cint32;
@@ -1715,7 +1722,7 @@ function uos_File2Buffer(Filename: Pchar; SampleFormat: cint32 ; var bufferinfos
   writeln('After Filetobuffer');
   writeln('length(tempoutmemory) =' +inttostr(length(tempoutmemory)));
   st := '';
-  for i := 0 to length(outmemory) -1 do
+  for i := 0 to length(tempoutmemory) -1 do
   st := st + '|' + inttostr(i) + '=' + floattostr(tempoutmemory[i]);  
   WriteLn('OUTPUT DATA into portaudio------------------------------');
   WriteLn(st);
@@ -2816,8 +2823,6 @@ var
   SetLength(BufferplugFL, 0);
   SetLength(BufferplugFLTMP, 0);
   
- 
-  
   {$IF DEFINED(debug)}
   writeln('Length(BufferplugFL) = '
   + inttostr(Length(BufferplugFL))); 
@@ -2828,14 +2833,14 @@ var
   {$endif} 
 
   SetLength(BufferplugFLTMP,(Length(Bufferin)));
-  
+{  
   x2 := 0 ;
 while x2 < Length(BufferplugFLTMP) do 
 begin
 BufferplugFLTMP[x2] := 0.0 ;
 inc(x2);
 end;
-  
+}  
   {$IF DEFINED(debug)}
   writeln('2_Length(BufferplugFLTMP) = '
   + inttostr(Length(BufferplugFLTMP))); 
@@ -2858,8 +2863,8 @@ end;
   writeln('SetLength(BufferplugFL) = '  + inttostr(length(BufferplugFL) + trunc(numoutbuf * inputData.Channels))); 
   {$endif}
   
-//  SetLength(BufferplugFL, length(BufferplugFL) + trunc(numoutbuf * inputData.Channels));
-  SetLength(BufferplugFL, length(BufferplugFL) + trunc(numoutbuf * 2));
+  SetLength(BufferplugFL, length(BufferplugFL) + trunc(numoutbuf * inputData.Channels));
+  // works only with 2 channels.
   
   x2 := Length(BufferplugFL) - (numoutbuf * inputData.Channels);
 
@@ -4044,10 +4049,10 @@ begin
   Result := FilterIndex;
 end;
 
-{$IF DEFINED(portaudio)}
+ {$IF DEFINED(portaudio) or DEFINED(pcaudio)}
 function Tuos_Player.AddFromDevIn(Device: cint32; Latency: CDouble;
   SampleRate: cint32; OutputIndex: cint32;
-  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32): cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32; TypeLibrary : cint8): cint32;
 // Add Input from IN device with custom parameters
 // Device ( -1 is default Input device )
 // Latency  ( -1 is latency suggested ) )
@@ -4057,10 +4062,18 @@ function Tuos_Player.AddFromDevIn(Device: cint32; Latency: CDouble;
 // SampleFormat : -1 default : Int16 (0: Float32, 1:Int32, 2:Int16)
 // FramesCount : -1 default : 4096
 // ChunkCount : default : -1 (= 512)
-// example : AddFromDevIn(-1,-1,-1,-1);
+// TypeLibrary : default : -1 (default = Portaudio) (Portaudio = 0, PCaudio = 1)
+// example : OutputIndex1 := AddFromDevice(-1,-1,-1,-1,-1, -1, -1);
+
 var
-  x, err: cint32;
+  x, x3, err, chuncnt: cint32;
+   devname : pchar; 
+   
 begin
+{$IF DEFINED(debug)}
+ writeln('Begin AddFromDevIn') ;
+  {$endif}
+  
  result := -1 ;
   x := 0;
   err := -1;
@@ -4071,7 +4084,10 @@ begin
   StreamIn[x].Data.levelEnable := 0;
   StreamIn[x].Data.PositionEnable := 0;
   StreamIn[x].Data.levelArrayEnable := 0;
-
+  
+  {$IF DEFINED(portaudio)}
+   if (TypeLibrary = 0) or  (TypeLibrary = -1) then
+   begin
   StreamIn[x].PAParam.HostApiSpecificStreamInfo := nil;
 
   if device = -1 then
@@ -4079,11 +4095,27 @@ begin
   Pa_GetDefaultInputDevice()
   else
   StreamIn[x].PAParam.device := cint32(device);
+  end;
+  {$endif} 
+  
+  if (TypeLibrary = 1) then
+   if device = -1 then
+  devname := nil
+  else
+  devname := 'sysdefault';  
 
   if SampleRate = -1 then
   StreamIn[x].Data.SampleRate := DefRate
   else
   StreamIn[x].Data.SampleRate := SampleRate;
+  
+  if SampleFormat = -1 then
+  StreamIn[x].Data.SampleFormat := 2 else
+  StreamIn[x].Data.SampleFormat := SampleFormat;
+  
+  {$IF DEFINED(portaudio)}
+   if (TypeLibrary = 0) or  (TypeLibrary = -1) then
+   begin
 
   StreamIn[x].PAParam.SuggestedLatency := CDouble(0);
 
@@ -4094,40 +4126,134 @@ begin
   1: StreamIn[x].PAParam.SampleFormat := paInt32;
   2: StreamIn[x].PAParam.SampleFormat := paInt16;
   end;
-
-  if SampleFormat = -1 then
-  StreamIn[x].Data.SampleFormat := CInt32(2)
-  else
-  StreamIn[x].Data.SampleFormat := CInt32(SampleFormat);
-
-  if  ((Pa_GetDeviceInfo(StreamIn[x].PAParam.device)^.
+  
+   if  ((Pa_GetDeviceInfo(StreamIn[x].PAParam.device)^.
   maxInputChannels)) > 1 then
   StreamIn[x].PAParam.channelCount := CInt32(2) else
   StreamIn[x].PAParam.channelCount := CInt32(1) ;
 
   StreamIn[x].data.channels := StreamIn[x].PAParam.channelCount;
+  end;
+   {$endif} 
+   
+   {$IF DEFINED(debug)}
+ writeln('before pcaudio if (TypeLibrary = 1)') ;
+  {$endif}
+   
+  {$IF DEFINED(pcaudio)} // to check
+   if (TypeLibrary = 1) then StreamIn[x].data.channels := 2; 
+  {$endif} 
+    
+     if SampleFormat = -1 then
+  StreamIn[x].Data.SampleFormat := CInt32(2)
+  else
+  StreamIn[x].Data.SampleFormat := CInt32(SampleFormat);
 
-  if FramesCount = -1 then  StreamIn[x].Data.Wantframes :=  4096 else
+  if FramesCount = -1 then  StreamIn[x].Data.Wantframes :=  1024 else
   StreamIn[x].Data.Wantframes := (FramesCount) ;
   
-   if ChunkCount = -1 then  ChunkCount := 512;
+  if ChunkCount = -1 then  chuncnt := 512 else
+  chuncnt := ChunkCount;
+  
+  {$IF DEFINED(debug)}
+ writeln('before SetLength(StreamIn[x]') ;
+  {$endif}
+  
+SetLength(StreamIn[x].Data.Buffer, StreamIn[x].Data.Wantframes* StreamIn[x].Data.channels);
 
-  SetLength(StreamIn[x].Data.Buffer, StreamIn[x].Data.Wantframes* StreamIn[x].Data.channels);
+ {$IF DEFINED(debug)}
+ writeln('after SetLength(StreamIn[x]') ;
+  {$endif}
 
 // StreamIn[x].Data.outframes := length(StreamIn[x].Data.Buffer);
   StreamIn[x].Data.outframes := 0;
   
   StreamIn[x].Data.Status := 1;
-  StreamIn[x].Data.TypePut := 1;
+  
+  if (TypeLibrary = 0) or (TypeLibrary = -1) then  
+  StreamIn[x].Data.TypePut := 1;// using portaudio lib
+  if (TypeLibrary = 1) then  
+  StreamIn[x].Data.TypePut := 6; // using pcaudio lib
+  
   StreamIn[x].Data.ratio := 2;
   StreamIn[x].Data.Output := OutputIndex;
   StreamIn[x].Data.seekable := False;
+  
+  if (TypeLibrary = 0) or (TypeLibrary = -1)then 
   StreamIn[x].Data.LibOpen := 2;
+  if (TypeLibrary = 1) then 
+  StreamIn[x].Data.LibOpen := 2;
+  
   StreamIn[x].LoopProc := nil;
   
+  {$IF DEFINED(debug)}
+ writeln('before IF DEFINED(portaudio') ;
+  {$endif}
+ 
+  {$IF DEFINED(portaudio)}
+   if (TypeLibrary = 0) or (TypeLibrary = -1) then  
   err := Pa_OpenStream(@StreamIn[x].Data.HandleSt, @StreamIn[x].PAParam,
-  nil, CDouble(StreamIn[x].Data.SampleRate), CULong(ChunkCount), paClipOff, nil, nil);
-
+  nil, CDouble(StreamIn[x].Data.SampleRate), CULong(chuncnt), paClipOff, nil, nil);
+  {$endif}
+  
+   {$IF DEFINED(debug)}
+ writeln('TypeLibrary = ' + inttostr(TypeLibrary)) ;
+  {$endif}
+  
+  {$IF DEFINED(pcaudio)} 
+  if (TypeLibrary = 1) then
+  begin
+  x3 := 0 ;
+  
+  err := -1;
+  
+   {$IF DEFINED(debug)}
+ writeln('before pcaudio create_audio_device_object') ;
+  {$endif}
+  
+  StreamIn[x].Data.HandleSt := nil;
+ 
+   StreamIn[x].Data.HandleSt := create_audio_device_object(devname, 'Powered by uos', 'United Open-libraries of Sound');
+  
+   {$IF DEFINED(debug)}
+  if StreamIn[x].Data.HandleSt = nil then writeln('StreamIn[x].Data.HandleSt = nil') 
+  else writeln('StreamIn[x].Data.HandleSt = ok');
+  {$endif}
+  
+   case StreamIn[x].Data.SampleFormat of
+  2: while x3 < 20 do  
+     if  audio_object_openrec(StreamIn[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S16LE,
+     StreamIn[x].Data.SampleRate,StreamIn[x].Data.channels) = 0 then
+     begin
+     x3 := 20;
+     err := 0;
+     end else
+     begin
+      inc(x3);
+      sleep(150);
+      end;
+   1: while x3 < 20 do 
+     if audio_object_openrec(StreamIn[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S32LE,
+      StreamIn[x].Data.SampleRate,StreamIn[x].Data.channels) = 0 then begin
+     x3 := 20;
+     err := 0;
+     end else begin
+      inc(x3);
+      sleep(150);
+      end;
+  0: while x3 < 20 do 
+     if audio_object_openrec(StreamIn[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_FLOAT32LE,
+      StreamIn[x].Data.SampleRate,StreamIn[x].Data.channels)= 0 then begin
+     x3 := 20;
+     err := 0;
+     end else begin
+      inc(x3);
+      sleep(150);
+      end;
+  end;
+  end;
+  {$endif}
+   
   if err <> 0 then
   else
   begin
@@ -4135,6 +4261,15 @@ begin
   Result := x;
   end;
 end;
+
+function Tuos_Player.AddFromDevIn(Device: cint32; Latency: CDouble;
+  SampleRate: cint32; OutputIndex: cint32;
+  SampleFormat: cint32; FramesCount : cint32; ChunkCount: cint32): cint32;
+// for compatibility with earlier version --> it uses Portaudio lib.
+begin
+AddFromDevIn(Device, Latency, SampleRate, OutputIndex, SampleFormat, FramesCount, ChunkCount, -1); 
+end;
+
 {$endif}
 
 function Tuos_Player.AddFromEndlessMuted(Channels : cint32; FramesCount: cint32): cint32;
@@ -4660,7 +4795,7 @@ begin
 //  result :  Output Index in array  -1 = error
 // example : OutputIndex1 := AddIntoDevOut(-1,-1,-1,-1,0,-1,-1);
 var
-  x, x2, err: cint32;
+  x, x2, x3, err, ChunkCnt: cint32;
   devname : pchar;
 
 begin
@@ -4745,7 +4880,7 @@ begin
   {$endif}
   StreamOut[x].Data.Wantframes := FramesCount ;
 
-  if ChunkCount = -1 then  ChunkCount := 512;
+  if ChunkCount = -1 then  ChunkCnt := 512 else ChunkCnt := ChunkCount;
 
   SetLength(StreamOut[x].Data.Buffer, StreamOut[x].Data.Wantframes*StreamOut[x].Data.Channels);
 
@@ -4764,33 +4899,61 @@ end;
 
  {$IF DEFINED(portaudio)}
   if (TypeLibrary = 0) or (TypeLibrary = -1) then
- err := Pa_OpenStream(@StreamOut[x].Data.HandleSt, nil, @StreamOut[x].PAParam, CDouble(StreamOut[x].Data.SampleRate), CULong(ChunkCount), paClipOff, nil, nil);
+ err := Pa_OpenStream(@StreamOut[x].Data.HandleSt, nil, @StreamOut[x].PAParam, CDouble(StreamOut[x].Data.SampleRate), CULong(ChunkCnt), paClipOff, nil, nil);
  //   err := Pa_OpenDefaultStream(@StreamOut[x].Data.HandleSt, 2, 2, paFloat32, DefRate, 512, nil, nil);
   {$endif}
   
  {$IF DEFINED(pcaudio)} 
   if (TypeLibrary = 1) then
   begin
-   StreamOut[x].Data.HandleSt := create_audio_device_object(devname, 'uos', 'United Open-libraries of Sound');
+  x3 := 0 ;
+ 
+  err := -1;
+ 
+  StreamOut[x].Data.HandleSt := create_audio_device_object(devname, 'Powered by uos', 'United Open-libraries of Sound');
+  
     case StreamOut[x].Data.SampleFormat of
-  2: audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S16LE, StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels);
-  1: audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S32LE, StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels);
-  0: audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_FLOAT32LE, StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels);
+  2: while x3 < 20 do  
+     if  audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S16LE,
+     StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels) = 0 then
+     begin
+     x3 := 20;
+     err := 0;
+     end else
+     begin
+      inc(x3);
+      sleep(150);
+      end;
+   1: while x3 < 20 do 
+     if audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_S32LE,
+      StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels) = 0 then begin
+     x3 := 20;
+     err := 0;
+     end else begin
+      inc(x3);
+      sleep(150);
+      end;
+  0: while x3 < 20 do 
+     if audio_object_open(StreamOut[x].Data.HandleSt, AUDIO_OBJECT_FORMAT_FLOAT32LE,
+      StreamOut[x].Data.SampleRate,StreamOut[x].Data.channels)= 0 then begin
+     x3 := 20;
+     err := 0;
+     end else begin
+      inc(x3);
+      sleep(150);
+      end;
   end;
-  err := 0;
   end;
   {$endif}
 
   StreamOut[x].LoopProc := nil;
-  if err <> 0 then
+  if err <> 0 then Result := -1
   else
   begin
   StreamOut[x].Data.Enabled := True;
   Result := x;
   end;
 end;
-
-
 
  function Tuos_Player.AddIntoDevOut(Device: cint32; Latency: CDouble;
   SampleRate: cint32; Channels: cint32; SampleFormat: cint32 ;
@@ -6752,17 +6915,53 @@ end;
 
 procedure Tuos_Player.ReadDevice(x : integer);  
 var
-x2 : integer;
+x2, i, sizsam, erro : integer;
+st : string;
 begin
-  for x2 := 0 to StreamIn[x].Data.WantFrames -1 do
+    for x2 := 0 to StreamIn[x].Data.WantFrames -1 do
    StreamIn[x].Data.Buffer[x2] := cfloat(0.0);// clear input
+   
+ 
+  {$IFDEF portaudio}
+   if StreamIn[x].Data.typeput = 1 then begin// from portaudio lib
    Pa_ReadStream(StreamIn[x].Data.HandleSt,
    @StreamIn[x].Data.Buffer[0], StreamIn[x].Data.WantFrames);
+ 
+  end;
+  {$ENDIF}
+       
+   {$IFDEF pcaudio}    
+   if StreamIn[x].Data.typeput = 6 then // from pcaudio lib 
+   begin
+   
+  case StreamOut[x].Data.SampleFormat of
+  2: sizsam := sizeof(cint16);
+  1: sizsam := sizeof(cint32);
+  0: sizsam := sizeof(cfloat);
+  end;
+ {$IF DEFINED(debug)}
+ writeln('before audio_object_read') ;
+  {$endif}
+  erro := audio_object_read(StreamIn[x].Data.HandleSt,pointer(StreamIn[x].Data.Buffer),  
+  length(StreamIn[x].Data.Buffer) *  StreamIn[x].Data.channels); 
 
-// err :=// if you want clean buffer
+  {$IF DEFINED(debug)}
+  st := '';
+  for i := 0 to 100 do
+  st := st + '|' + inttostr(i) + '=' + inttostr(round(StreamIn[x].Data.Buffer[i]));
+  WriteLn('INPUT DATA from pcaudio------------------------------');
+WriteLn(st);
+  {$endif}
+
+ {$IF DEFINED(debug)}
+ writeln('after audio_object_read: erro = ' + inttostr(erro)) ;
+  {$endif}
+ end;
+ {$ENDIF}
+
    StreamIn[x].Data.OutFrames :=
-   StreamIn[x].Data.WantFrames * StreamIn[x].Data.Channels;
-//  if err = 0 then StreamIn[x].Data.Status := 1 else StreamIn[x].Data.Status := 0;// if you want clean buffer
+   StreamIn[x].Data.WantFrames * StreamIn[x].Data.channels ;
+
 end;
 
 procedure Tuos_Player.DoDSPinBeforeBufProc(x: integer);  
@@ -6843,7 +7042,7 @@ begin
   statustemp := 0 ;
   for x := 0 to high(StreamIn) do
   begin
-  if (StreamIn[x].Data.TypePut <> 1)
+  if ((StreamIn[x].Data.TypePut <> 1) and (StreamIn[x].Data.TypePut <> 6) )
   then
   begin
   if StreamIn[x].Data.Status = 1 then
@@ -6852,7 +7051,7 @@ begin
   statustemp := StreamIn[x].Data.Status;
   end else
   if
-  (StreamIn[x].Data.TypePut = 1) then statustemp := status ;
+  (StreamIn[x].Data.TypePut = 1) or (StreamIn[x].Data.TypePut = 6) then statustemp := status ;
   end ;
   if statustemp <> status then status := statustemp;
 
@@ -7136,6 +7335,14 @@ begin
    end;
    {$endif}
    
+   {$IF DEFINED(pcaudio)}
+    6: begin
+    audio_object_flush(StreamIn[x].Data.HandleSt);
+    audio_object_close(StreamIn[x].Data.HandleSt);
+    audio_object_destroy(StreamIn[x].Data.HandleSt);
+    end;
+   {$endif}
+   
    {$IF DEFINED(webstream)}
    2: begin
    StreamIn[x].httpget.Terminate;
@@ -7340,13 +7547,14 @@ end;
 
 procedure Tuos_Player.WriteOut(x:integer;  x2 : integer);  
  var
- err, rat, wantframestemp, sizsam: integer;
+x3, err, rat, wantframestemp, sizsam: integer;
 
  {$IF DEFINED(debug)}
  st : string;
  i : integer;
  {$endif}
   Bufferst2mo: TDArFloat;
+  Buffer: TDArshort;
 begin
 // Convert Input format into Output format if needed:
  {$IF DEFINED(debug)}
@@ -7375,7 +7583,7 @@ begin
  writeln('length(StreamOut[x].Data.Buffer) =' + inttostr(length(StreamOut[x].Data.Buffer)));
  {$endif}
   if (StreamIn[x2].Data.TypePut <> 1) or
-  ((StreamIn[x2].Data.TypePut = 1) and (StreamIn[x2].Data.Channels > 1)) then
+  (((StreamIn[x2].Data.TypePut = 1) or (StreamIn[x2].Data.TypePut = 6)) and (StreamIn[x2].Data.Channels > 1)) then
   begin
   {$IF DEFINED(debug)}
   st := '';
@@ -7416,7 +7624,7 @@ begin
  writeln('length(StreamOut[x].Data.Buffer) =' + inttostr(length(StreamOut[x].Data.Buffer)));
  {$endif}
   if (StreamIn[x2].Data.TypePut <> 1) or
-  ((StreamIn[x2].Data.TypePut = 1) and (StreamIn[x2].Data.Channels > 1)) then
+  (((StreamIn[x2].Data.TypePut = 1) or (StreamIn[x2].Data.TypePut = 6)) and (StreamIn[x2].Data.Channels > 1)) then
   begin
   {$IF DEFINED(debug)}
   st := '';
@@ -7580,12 +7788,24 @@ if err > 0 then
 
   0:// Give to wav file from TFileStream
   begin
+  
+   {$IF DEFINED(debug)}
+  st := '';
+  for i := 0 to StreamIn[x2].Data.outframes -1 do
+  st := st + '|' + inttostr(i) + '=' + floattostr(StreamOut[x].Data.Buffer[i]);
+  WriteLn('OUTPUT DATA Give to wav file from TFileStream--------------------------');
+  //WriteLn(st);
+  {$endif}
 
   case StreamOut[x].Data.SampleFormat of
   0: rat := 2 ;
   1: rat := 2 ;
   2: rat := 1 ;
   end;
+  
+   setlength(Buffer,length(StreamIn[x2].Data.Buffer)); 
+     for x3 := 0 to length(Buffer)-1 do buffer[x3] := round(StreamIn[x2].Data.Buffer[x3]); 
+
 
   if (StreamOut[x].FileBuffer.wChannels = 1) and (StreamIn[x2].Data.Channels = 2) then
   begin
@@ -7600,10 +7820,12 @@ if err > 0 then
   begin
   StreamOut[x].FileBuffer.Data.WriteBuffer(
   StreamOut[x].Data.Buffer[0],  StreamIn[x2].Data.outframes * StreamIn[x2].Data.ratio * rat);
-  end else
+  end else 
 
   StreamOut[x].FileBuffer.Data.WriteBuffer(
-  StreamOut[x].Data.Buffer[0],  StreamIn[x2].Data.outframes * StreamIn[x2].Data.Channels * rat);
+ // Buffer[0],
+  StreamOut[x].Data.Buffer[0],
+  StreamIn[x2].Data.outframes * StreamIn[x2].Data.Channels * rat);
   end;
 
   end;
@@ -7764,12 +7986,12 @@ begin
    sizsam * Length(BufferplugSH) div (StreamIn[x2].Data.ratio div StreamIn[x2].Data.channels)); 
   end;
   end;
+  {$IF DEFINED(debug)}
+  writeln('End give to output device 5');
+  {$endif}
   end;
    
- {$IF DEFINED(debug)}
- writeln('End give to output device 5');
-{$endif}
-   {$endif}
+  {$endif}
   
 
   {$IF DEFINED(shout)}
@@ -8247,7 +8469,12 @@ begin
   ReadFile(x);
 
   {$IF DEFINED(portaudio)}
-  1:// for Input from device
+  1:// for Input from device with Portaudio lib
+  ReadDevice(x);
+  {$endif}
+  
+  {$IF DEFINED(pcaudio)}
+  6:// for Input from device with PCaudio lib
   ReadDevice(x);
   {$endif}
   
@@ -8400,14 +8627,6 @@ begin
   cfloat(StreamIn[x2].Data.Buffer[x3]);
   end;
   
-   {$IF DEFINED(debug)}
-   WriteLn('StreamOut[x].Data.Buffer ------------------------------');
-   st := '';
-   for i := 0 to length(StreamOut[0].Data.Buffer) -1 do
-   st := st + '|' + inttostr(i) + '=' + floattostr(Streamout[0].Data.Buffer[i]); 
-// WriteLn(st); 
-    writeln('for x3 := 0 to high(StreamIn[x2].Data.Buffer) done');
-   {$endif}
    
   case StreamIn[x2].Data.LibOpen of
   0:  StreamOut[x].Data.outframes := StreamIn[x2].Data.outframes ;// sndfile
