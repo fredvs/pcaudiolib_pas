@@ -520,7 +520,7 @@ makeoptionson=8
  63
  3
  34
- 48
+ 52
  63
 compilerusedon=29
  4095
@@ -976,7 +976,7 @@ windowlayout=566
  x=0
  y=0
  cx=1356
- cy=694
+ cy=874
  rcx=0
  rcy=0
  [mainfo]
@@ -995,7 +995,7 @@ windowlayout=566
  rcx=0
  rcy=0
  children=1
-  basedock,0,0,1356,694
+  basedock,0,0,1356,874
  focusedchild=0
  wsize=6
  active=1
@@ -1111,7 +1111,7 @@ windowlayout=566
  x=0
  y=0
  cx=205
- cy=523
+ cy=659
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -1324,9 +1324,9 @@ windowlayout=566
  ncx=0
  ncy=0
  x=0
- y=588
+ y=740
  cx=1356
- cy=106
+ cy=134
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1426,7 +1426,7 @@ windowlayout=566
  x=0
  y=0
  cx=1356
- cy=59
+ cy=75
  rcx=0
  rcy=0
  [debuggerfo.basedock]
@@ -1442,7 +1442,7 @@ windowlayout=566
  x=0
  y=0
  cx=1356
- cy=62
+ cy=78
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
@@ -1455,7 +1455,7 @@ windowlayout=566
  value=/home/fred/pcaudiolib_pas/src/uos_demo/consolerec.pas
  history=0
  [debuggerfo.project_options]
- value=B
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]
@@ -1471,7 +1471,7 @@ windowlayout=566
  x=208
  y=0
  cx=1148
- cy=523
+ cy=659
  rcx=0
  rcy=0
  [cpuc86_64fo]
@@ -1505,9 +1505,9 @@ windowlayout=566
  ncx=0
  ncy=0
  x=0
- y=62
+ y=78
  cx=1356
- cy=523
+ cy=659
  rcx=0
  rcy=0
  [_mse_guitemplatesmo_mse_]

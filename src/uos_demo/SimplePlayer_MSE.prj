@@ -568,10 +568,10 @@ befcommandon=0
 makeoptionson=6
  2559
  2559
- 2365
+ 2305
  0
  2515
- 2291
+ 2303
 compilerusedon=29
  3903
  0
@@ -916,7 +916,7 @@ editpos=17
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,2
+ 0,10
  0,-1073741823
  0,-1073741823
  0,-1073741823
@@ -951,7 +951,7 @@ sourcefiles=17
  ${PROJECTDIR}/uos.pas
  ${PROJECTDIR}/SimplePlayer_MSE.pas
  ${PROJECTDIR}/define.inc
- /home/fred/pcaudiolib_pas/src/uos_demo/mainmse_sp.pas
+ ${PROJECTDIR}/mainmse_sp.pas
  ${PROJECTDIR}/uos_flat.pas
  ${PROJECTDIR}/uos_pcaudio.pas
  /home/fred/portaudio_opensles/src/hostapi/asihpi/pa_linux_asihpi.c
@@ -981,8 +981,8 @@ relpaths=17
  portaudio_opensles/test/patest_wire.c
  uos_pcaudio.pas
  uos_flat.pas
- ../pcaudiolib-mse/src/alsa.c
- ../pcaudiolib-mse/src/pulseaudio.c
+ pcaudiolib-mse/src/alsa.c
+ pcaudiolib-mse/src/pulseaudio.c
 ismoduletexts=17
  0
  0
@@ -1086,7 +1086,7 @@ windowlayout=539
  [memoryfo]
  splitdir=0
  useroptions=805322875
- stackedunder=about_form
+ stackedunder=dialogfilesfo
  parent=
  mdistate=0
  nx=0
@@ -1494,7 +1494,7 @@ windowlayout=539
  value=/home/fred/pcaudiolib_pas/src/uos_demo/mainmse_sp.pas
  history=0
  [debuggerfo.project_options]
- value=B
+ value=1
  [debuggerfo.hints]
  value=0
  [sourcefo]

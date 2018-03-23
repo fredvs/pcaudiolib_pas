@@ -208,7 +208,7 @@ options=114
  value=
  [projectoptionsfo.makegroupbox]
  firsttab=0
- index=0
+ index=2
  [projectoptionsfo.exceptionsgrid]
  propcolwidthref=724
  width0=47
@@ -1538,7 +1538,7 @@ windowlayout=585
  [_mse_mainfo_mse_]
  splitdir=0
  useroptions=805322875
- stackedunder=threadsfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0

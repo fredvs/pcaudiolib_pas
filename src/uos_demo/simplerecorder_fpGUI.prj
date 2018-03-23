@@ -221,11 +221,11 @@ options=114
  index=1
  [projectoptionsfo.setting_tab]
  firsttab=0
- index=0
+ index=2
  [projectoptionsfo]
  stackedunder=
- x=514
- y=203
+ x=294
+ y=170
  cx=773
  cy=497
 programparameters=18
@@ -283,7 +283,7 @@ makeoptions=8
  -FUunits
  -WG
  -B -ghl
- -O4 -XX -Xs -CX
+ -O2 -XX -Xs -CX
  -vewnhibq
 makeoptpurpose=8
  
@@ -891,9 +891,9 @@ findhistory=20
  after uosPlayers[PlayerIndex] <> nil
 findoptions=1
 editpos=26
- 0,270
  0,-1073741823
- 0,0
+ 0,-1073741823
+ 0,-1073741823
  0,-1073741823
  0,-1073741823
  0,-1073741823
@@ -916,7 +916,7 @@ editpos=26
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,29
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -973,7 +973,7 @@ sourcefiles=26
 relpaths=26
  simplerecorder_fpGUI.pas
  uos.pas
- ../../Téléchargements/pulseaudio-master/src/pulse/simple.h
+ Téléchargements/pulseaudio-master/src/pulse/simple.h
  Téléchargements/pulseaudio-master/src/tests/parec-simple.c
  Téléchargements/pulseaudio-master/src/utils/pasuspender.c
  Téléchargements/pulseaudio-master/src/pulse/def.h
@@ -996,7 +996,7 @@ relpaths=26
  pcaudiolib-mse/src/waveout.c
  pcaudiolib-mse/src/windows.c
  pcaudiolib-mse/src/xaudio2.cpp
- ../../pcaudiolib-io/src/pulseaudio.c
+ pcaudiolib-io/src/pulseaudio.c
 ismoduletexts=26
  0
  0
@@ -1136,7 +1136,7 @@ windowlayout=547
  [memoryfo]
  splitdir=0
  useroptions=805322875
- stackedunder=about_form
+ stackedunder=dialogfilesfo
  parent=
  mdistate=0
  nx=0
@@ -1384,7 +1384,7 @@ windowlayout=547
  rcx=1262
  rcy=583
  [watchfo.grid]
- propcolwidthref=111
+ propcolwidthref=121
  values0=2
   -1
   -1
@@ -1534,8 +1534,8 @@ windowlayout=547
  mdistate=0
  nx=0
  ny=0
- ncx=1111
- ncy=52
+ ncx=1147
+ ncy=54
  x=0
  y=0
  cx=1147
