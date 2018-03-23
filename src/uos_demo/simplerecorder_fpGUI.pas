@@ -277,7 +277,7 @@ var
        end else
       begin
        libused := 1;
-       if RadioButton2.checked = true then
+       if CheckBox3.checked = true then
        devused := 1 else devused := -1;
        end;
  

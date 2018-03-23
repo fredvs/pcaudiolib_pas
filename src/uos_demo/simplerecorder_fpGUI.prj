@@ -867,8 +867,9 @@ envvarons=0
 [edit]
 hintwidth=462
 hintheight=95
-finddtext=AddFromDevIn
+finddtext=printf
 findhistory=20
+ printf
  AddFromDevIn
  ReadDevice
  writeout
@@ -888,34 +889,34 @@ findhistory=20
  readd
  ChunkCount
  after uosPlayers[PlayerIndex] <> nil
- after uosPlayer
 findoptions=1
-editpos=25
- 0,273
- 0,-1073741823
- 0,-1073741823
- 0,74
- 0,323
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,133
- 0,298
- 0,-1073741823
- 0,-1073741823
- 0,141
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
+editpos=26
+ 0,270
  0,-1073741823
  0,0
- 0,116
- 0,285
- 0,0
- 0,73
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 68,16
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,29
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -941,7 +942,8 @@ bookmarks21=0
 bookmarks22=0
 bookmarks23=0
 bookmarks24=0
-sourcefiles=25
+bookmarks25=0
+sourcefiles=26
  ${PROJECTDIR}/simplerecorder_fpGUI.pas
  ${PROJECTDIR}/uos.pas
  /home/fred/Téléchargements/pulseaudio-master/src/pulse/simple.h
@@ -954,7 +956,7 @@ sourcefiles=25
  /home/fred/pcaudiolib-mse/src/include/pcaudiolib/audio.h
  /home/fred/pcaudiolib-mse/src/audio.c
  /home/fred/pcaudiolib-mse/src/pulseaudio.c
- /home/fred/pcaudiolib-mse/src/alsa.c
+ /home/fred/pcaudiolib-io/src/alsa.c
  /usr/include/alsa/pcm.h
  /home/fred/pcaudiolib-mse/src/audio_priv.h
  /home/fred/pcaudiolib-mse/src/oss.c
@@ -967,33 +969,36 @@ sourcefiles=25
  /home/fred/pcaudiolib-mse/src/waveout.c
  /home/fred/pcaudiolib-mse/src/windows.c
  /home/fred/pcaudiolib-mse/src/xaudio2.cpp
-relpaths=25
+ /home/fred/pcaudiolib-io/src/pulseaudio.c
+relpaths=26
  simplerecorder_fpGUI.pas
  uos.pas
- Téléchargements/pulseaudio-master/src/pulse/simple.h
- ../../Téléchargements/pulseaudio-master/src/tests/parec-simple.c
- ../../Téléchargements/pulseaudio-master/src/utils/pasuspender.c
- ../Téléchargements/pulseaudio-master/src/pulse/def.h
+ ../../Téléchargements/pulseaudio-master/src/pulse/simple.h
+ Téléchargements/pulseaudio-master/src/tests/parec-simple.c
+ Téléchargements/pulseaudio-master/src/utils/pasuspender.c
+ Téléchargements/pulseaudio-master/src/pulse/def.h
  SimplePlayer_MSE.pas
  define.inc
  uos_pcaudio.pas
- ../pcaudiolib-mse/src/include/pcaudiolib/audio.h
+ pcaudiolib-mse/src/include/pcaudiolib/audio.h
  pcaudiolib-mse/src/audio.c
- ../../pcaudiolib-mse/src/pulseaudio.c
- ../../pcaudiolib-mse/src/alsa.c
+ pcaudiolib-mse/src/pulseaudio.c
+ ../../pcaudiolib-io/src/alsa.c
  usr/include/alsa/pcm.h
  pcaudiolib-mse/src/audio_priv.h
- ../../pcaudiolib-mse/src/oss.c
+ pcaudiolib-mse/src/oss.c
  apulseaudio-master/src/pulse/simple.c
  apulseaudio-master/src/pulse/def.h
  apulseaudio-master/src/pulse/internal.h
  apulseaudio-master/src/tests/parec-simple.c
- ../../pcaudiolib-mse/src/coreaudio.c
- ../../pcaudiolib-mse/src/qsa.c
- ../../pcaudiolib-mse/src/waveout.c
- ../../pcaudiolib-mse/src/windows.c
- ../../pcaudiolib-mse/src/xaudio2.cpp
-ismoduletexts=25
+ pcaudiolib-mse/src/coreaudio.c
+ pcaudiolib-mse/src/qsa.c
+ pcaudiolib-mse/src/waveout.c
+ pcaudiolib-mse/src/windows.c
+ pcaudiolib-mse/src/xaudio2.cpp
+ ../../pcaudiolib-io/src/pulseaudio.c
+ismoduletexts=26
+ 0
  0
  0
  0
@@ -1024,15 +1029,16 @@ moduleoptions=0
 visiblemodules=0
 nomenumodules=0
 [sourcefo.files_tab]
-order=25
+order=26
  6
  7
  22
  8
  0
  1
- 12
  2
+ 12
+ 25
  3
  4
  5
@@ -1051,9 +1057,9 @@ order=25
  17
  18
 firsttab=0
-index=4
+index=7
 [layout]
-windowlayout=597
+windowlayout=547
  [mainfo.basedock]
  splitdir=2
  useroptions=11395
@@ -1066,8 +1072,8 @@ windowlayout=597
  ncy=0
  x=0
  y=0
- cx=1356
- cy=694
+ cx=1147
+ cy=604
  rcx=0
  rcy=0
  [mainfo]
@@ -1080,16 +1086,16 @@ windowlayout=597
  ncx=0
  ncy=0
  x=125
- y=47
+ y=46
  cx=1157
  cy=621
  rcx=0
  rcy=0
  children=1
-  basedock,0,0,1356,694
+  basedock,0,0,1147,604
  focusedchild=0
- wsize=6
- active=0
+ wsize=0
+ active=1
  visible=1
  [targetconsolefo]
  splitdir=0
@@ -1100,14 +1106,14 @@ windowlayout=597
  ny=0
  ncx=0
  ncy=0
- x=493
- y=171
+ x=661
+ y=158
  cx=497
  cy=314
  rcx=0
  rcy=0
  wsize=0
- active=1
+ active=0
  visible=1
  [threadsfo]
  splitdir=0
@@ -1202,7 +1208,7 @@ windowlayout=597
  x=0
  y=0
  cx=205
- cy=523
+ cy=455
  rcx=0
  rcy=0
  [projecttreefo.grid]
@@ -1415,9 +1421,9 @@ windowlayout=597
  ncx=0
  ncy=0
  x=0
- y=588
- cx=1356
- cy=106
+ y=512
+ cx=1147
+ cy=92
  rcx=0
  rcy=0
  [componentstorefo]
@@ -1516,8 +1522,8 @@ windowlayout=597
  ncy=0
  x=0
  y=0
- cx=1356
- cy=59
+ cx=1147
+ cy=51
  rcx=0
  rcy=0
  [debuggerfo.basedock]
@@ -1532,8 +1538,8 @@ windowlayout=597
  ncy=52
  x=0
  y=0
- cx=1356
- cy=62
+ cx=1147
+ cy=54
  rcx=0
  rcy=0
  [debuggerfo.edit_options]
@@ -1543,58 +1549,8 @@ windowlayout=597
  [debuggerfo.edit_compiler]
  value=Pascal
  [debuggerfo.file_history]
- value=/home/fred/pcaudiolib_pas/src/uos_demo/simplerecorder_fpGUI.pas
- history=50
-  /home/fred/pcaudiolib-mse/src/pulseaudio.c
-  /home/fred/pcaudiolib-mse/src/alsa.c
-  /home/fred/pcaudiolib-mse/src/oss.c
-  /home/fred/pcaudiolib-mse/src/qsa.c
-  /home/fred/pcaudiolib-mse/src/waveout.c
-  /home/fred/pcaudiolib-mse/src/windows.c
-  /home/fred/pcaudiolib_pas/src/uos_demo/simplerecorder_fpGUI.pas
-  /home/fred/pcaudiolib-mse/src/audio_priv.h
-  /home/fred/pcaudiolib-mse/src/xaudio2.cpp
-  /home/fred/pcaudiolib-mse/src/audio.c
-  /usr/include/pulse/simple.h
-  /usr/include/pulse/pulseaudio.h
-  /home/fred/pcaudiolib-mse/src/include/pcaudiolib/audio.h
-  /home/fred/pcaudiolib_pas/src/uos_demo/simplerecorder_fpGUI
-  /home/fred/pcaudiolib_pas/src/uos_demo/uos.pas
-  /home/fred/uos/src/uos.pas
-  /home/fred/pcaudiolib_pas/src/uos_demo/SimplePlayer_MSE.pas
-  /home/fred/pcaudiolib_pas/src/uos_demo/mainmse_sp.pas
-  /home/fred/pcaudiolib_pas/src/uos_demo/uos_flat.pas
-  /home/fred/pcaudiolib_pas/src/uos_demo/uos_pcaudio.pas
-  /home/fred/portaudio_opensles/src/hostapi/alsa/pa_linux_alsa.c
-  /home/fred/alsatest/alsadrop2.c
-  /home/fred/alsatest/alsadrop1.c
-  /home/fred/strumpract/src/songplayer.pas
-  /home/fred/uos/examples/SimplePlayer_MSE.pas
-  /home/fred/uos/examples/mainmse_sp.pas
-  /home/fred/uos/examples/consoleplay.pas
-  /home/fred/pcaudiolib_pas/src/pcaudiosynth.pas
-  /usr/local/codetyphon/typhon/components/pl_TitanSound/source/tsd_tag_id3v2.pas
-  /home/fred/pcaudiolib_pas/src/pcaudio.pas
-  /home/fred/pcaudio/main.pas
-  /home/fred/msepcaudio/main.pas
-  /home/fred/msepcaudio/msepcaudio.pas
-  /home/fred/pcaudiolib-master/src/xaudio2.cpp
-  /home/fred/pcaudiolib-master/src/audio_priv.h
-  /home/fred/uos/examples/uos_mpg123.pas
-  /home/fred/uos/examples/uos_portaudio.pas
-  /home/fred/uos/examples/main_sp.lfm
-  /home/fred/uos/examples/fpc_ct.cfg
-  /home/fred/uoslibCT/src/fpcct_android.cfg
-  /home/fred/uos/examples/main_wf.pas
-  /home/fred/ideu/src/confideu.pas
-  /home/fred/ideu/src/ideusettings.pas
-  /home/fred/ideu/src/msewidgets.pas
-  /home/fred/strumpract/src/aboutform.pas
-  /home/fred/strumpract/src/main.pas
-  /home/fred/strumpract/src/config.pas
-  /home/fred/uos/examples/uoslib.pas
-  /home/fred/uos/examples/uos_libsndfile.pas
-  /home/fred/uos/examples/uos.pas
+ value=/home/fred/pcaudiolib-io/src/alsa.c
+ history=0
  [debuggerfo.project_options]
  value=1
  [debuggerfo.hints]
@@ -1611,15 +1567,15 @@ windowlayout=597
  ncy=0
  x=208
  y=0
- cx=1148
- cy=523
+ cx=939
+ cy=455
  rcx=0
  rcy=0
  [cpuc86_64fo]
  irqoff=0
  splitdir=0
  useroptions=268451947
- stackedunder=mainfo
+ stackedunder=targetconsolefo
  parent=
  mdistate=0
  nx=0
@@ -1646,9 +1602,9 @@ windowlayout=597
  ncx=0
  ncy=0
  x=0
- y=62
- cx=1356
- cy=523
+ y=54
+ cx=1147
+ cy=455
  rcx=0
  rcy=0
 [targetconsole]
