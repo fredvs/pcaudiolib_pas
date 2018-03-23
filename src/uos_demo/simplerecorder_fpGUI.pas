@@ -88,6 +88,8 @@ var
   end;  
  
   procedure TSimplerecorder.btnPlaySavedClick(Sender: TObject);
+  var
+   libused, devused : integer;
   begin
   
  if fileexists( Pchar(filenameedit4.FileName)) then begin
@@ -103,11 +105,24 @@ var
   //// PlayerIndex : from 0 to what your computer can do !
   //// If PlayerIndex exists already, it will be overwriten...
 
-   {$if defined(cpuarm)} // needs lower latency
-       uos_AddIntoDevOut(PlayerIndex1, -1, 0.08, -1, -1, -1, -1, -1) ;
-       {$else}
-       uos_AddIntoDevOut(PlayerIndex1);
-       {$endif}
+     if RadioButton1.checked = true then
+      begin
+       libused := 0;
+       devused := -1;
+       end else
+      begin
+       libused := 1;
+       if CheckBox3.checked = true then
+       devused := 1 else devused := -1;
+       end;
+           
+     {$if defined(cpuarm)} // needs lower latency
+     uos_AddIntoDevOut(PlayerIndex1, devused, 0.3, -1,
+     -1, -1, -1, -1, libused);
+      {$else}
+     uos_AddIntoDevOut(PlayerIndex1, devused, -1, -1,
+     -1, -1, -1, -1, libused);
+       {$endif}    
    
     //  uos_AddIntoDevOut(0, -1, -1, -1, -1, 0,-1, -1);   //// add a Output into device with custom parameters
     //////////// PlayerIndex : Index of a existing Player
@@ -248,12 +263,24 @@ var
     //////////// SampleFormat : -1 default : Int16 : (0: Float32, 1:Int32, 2:Int16)
     //////////// FramesCount : -1 default : 65536
     //////////// FileFormat : -1 default : wav (0:wav, 1:pcm, 2:uos, 3:custom)
-    
-    {$if defined(cpuarm)} // needs lower latency
-    out1Index :=  uos_AddIntoDevOut(PlayerIndex1, -1, 0.08, -1, -1, -1, -1, -1, -1) ;
-       {$else}
-    out1Index := uos_AddIntoDevOut(PlayerIndex1);
-        {$endif}
+     if RadioButton1.checked = true then
+      begin
+       libused := 0;
+       devused := -1;
+       end else
+      begin
+       libused := 1;
+       if CheckBox3.checked = true then
+       devused := 1 else devused := -1;
+       end;
+           
+     {$if defined(cpuarm)} // needs lower latency
+   out1Index := uos_AddIntoDevOut(PlayerIndex1, devused, 0.3, -1,
+     -1, -1, -1, -1, libused);
+      {$else}
+      out1Index := uos_AddIntoDevOut(PlayerIndex1, devused, -1, -1,
+     -1, -1, -1, -1, libused);
+       {$endif}    
    
    uos_outputsetenable(PlayerIndex1,out1Index,checkbox1.checked);
    
@@ -270,17 +297,7 @@ var
     //////////// FramesCount : -1 default : 65536
       // ChunkCount : default : -1 (= 512)
       
-      if RadioButton1.checked = true then
-      begin
-       libused := 0;
-       devused := -1;
-       end else
-      begin
-       libused := 1;
-       if CheckBox3.checked = true then
-       devused := 1 else devused := -1;
-       end;
- 
+      
    In1Index := uos_AddFromDevIn(PlayerIndex1, devused, -1, -1, -1, -1, -1, -1, libused);  
  
  //  In1Index := uos_AddFromDevIn(PlayerIndex1);

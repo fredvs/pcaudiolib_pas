@@ -429,7 +429,7 @@ var
      
   {$if defined(cpuarm)} // needs lower latency
    OutputIndex1 := uos_AddIntoDevOut(PlayerIndex1, devused, 0.3, uos_InputGetSampleRate(PlayerIndex1, InputIndex1),
-     uos_InputGetChannels(PlayerIndex1, InputIndex1), samformat, -1, -1, libused)
+     uos_InputGetChannels(PlayerIndex1, InputIndex1), samformat, -1, -1, libused);
       {$else}
       OutputIndex1 := uos_AddIntoDevOut(PlayerIndex1, devused, -1, uos_InputGetSampleRate(PlayerIndex1, InputIndex1),
      uos_InputGetChannels(PlayerIndex1, InputIndex1), samformat, -1, -1 ,libused);
