@@ -900,13 +900,6 @@ editpos=27
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,4
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,-1073741823
- 0,16
  0,-1073741823
  0,-1073741823
  0,-1073741823
@@ -920,7 +913,14 @@ editpos=27
  0,-1073741823
  0,-1073741823
  0,-1073741823
- 0,431
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
+ 0,-1073741823
 bookmarks0=0
 bookmarks1=0
 bookmarks2=0
@@ -949,7 +949,7 @@ bookmarks24=0
 bookmarks25=0
 bookmarks26=0
 sourcefiles=27
- ${PROJECTDIR}/simplerecorder_fpGUI.pas
+ /home/fred/pcaudiolib_pas/src/uos_demo/simplerecorder_fpGUI.pas
  ${PROJECTDIR}/uos.pas
  /home/fred/Téléchargements/pulseaudio-master/src/pulse/simple.h
  /home/fred/Téléchargements/pulseaudio-master/src/tests/parec-simple.c
@@ -989,7 +989,7 @@ relpaths=27
  pcaudiolib-mse/src/include/pcaudiolib/audio.h
  pcaudiolib-mse/src/audio.c
  pcaudiolib-mse/src/pulseaudio.c
- ../../pcaudiolib-io/src/alsa.c
+ ../pcaudiolib-io/src/alsa.c
  usr/include/alsa/pcm.h
  pcaudiolib-mse/src/audio_priv.h
  pcaudiolib-mse/src/oss.c
